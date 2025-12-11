@@ -1,57 +1,62 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-key="nav.title">愛妮島潛水指南</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: 'Noto Sans TC', 'Noto Sans JP', sans-serif;
-            background-color: #fdfbf7; 
-            color: #1f2937;
-        }
-        
-        /* Chart Container Styling - MANDATORY */
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
-        }
+      body {
+        font-family: "Noto Sans TC", "Noto Sans JP", sans-serif;
+        background-color: #fdfbf7;
+        color: #1f2937;
+      }
 
-        /* Custom Scrollbar for tables if needed */
-        .custom-scrollbar::-webkit-scrollbar {
-            height: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+      /* Chart Container Styling - MANDATORY */
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 400px;
+        max-height: 50vh;
+      }
 
-        .text-dynamic { /* Class for all dynamically updated text */ }
+      /* Custom Scrollbar for tables if needed */
+      .custom-scrollbar::-webkit-scrollbar {
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      .text-dynamic {
+        /* Class for all dynamically updated text */
+      }
     </style>
     <!-- Chosen Palette: Warm Sand & Deep Ocean -->
     <!-- Primary: #0ea5e9 (Ocean Blue), Secondary: #f97316 (Sunset Orange), Background: #fdfbf7 (Sand) -->
-    
+
     <!-- Application Structure Plan: 
          1. Hero Section: 標題和核心價值主張（簡化選擇）。
          2. Interactive Concierge (Wizard): '焦點選擇器' 根據用戶的優先級篩選最佳潛店。
          3. Dynamic Price Visualization: Chart.js 柱狀圖比較各課程成本。
          4. Detailed Comparison Grid: 以卡片形式呈現詳細數據，用於比較非數值特性。
          
-         Why this structure? 優先級（Wizard）提供即時建議，圖表驗證財務，卡片提供細節。新增語言切換功能以服務多語言需求。
+         Why this structure? 優先級（Wizard）提供即時建議，圖表驗證財務，卡片提供細節。新增語言切換功能以服務多語言需求，並實作自動偵測。
     -->
 
     <!-- Visualization & Content Choices:
@@ -59,565 +64,838 @@
          2. Price Chart: Chart.js 柱狀圖。目標：視覺化比較成本。理由：圖表比表格更直觀。NO SVG used.
          3. Feature Cards: HTML/Tailwind Grid。目標：顯示定性數據。理由：易於閱讀且響應式。
     -->
-    
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-</head>
-<body class="text-slate-800">
 
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+  </head>
+  <body class="text-slate-800">
     <!-- Navigation / Header -->
     <nav class="bg-white shadow-sm border-b border-slate-100 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold text-sky-600" data-key="nav.title">愛妮島潛水指南</span>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <!-- Language Toggle -->
-                    <div class="relative inline-block text-left">
-                        <select id="language-selector" onchange="switchLanguage(this.value)" class="bg-white border border-slate-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500">
-                            <option value="zh-TW">中文 (繁體)</option>
-                            <option value="ja">日本語</option>
-                        </select>
-                    </div>
-
-                    <div class="hidden md:flex space-x-4">
-                        <button onclick="scrollToSection('concierge')" class="text-slate-600 hover:text-sky-600 font-medium text-dynamic" data-key="nav.diag">推薦診斷</button>
-                        <button onclick="scrollToSection('price-chart')" class="text-slate-600 hover:text-sky-600 font-medium text-dynamic" data-key="nav.price">價格比較</button>
-                        <button onclick="scrollToSection('details')" class="text-slate-600 hover:text-sky-600 font-medium text-dynamic" data-key="nav.details">詳細規格</button>
-                    </div>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center">
+            <span class="text-2xl font-bold text-sky-600" data-key="nav.title">愛妮島潛水指南</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <!-- Language Toggle -->
+            <div class="relative inline-block text-left">
+              <select
+                id="language-selector"
+                onchange="switchLanguage(this.value)"
+                class="bg-white border border-slate-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
+              >
+                <option value="zh-TW">中文 (繁體)</option>
+                <option value="ja">日本語</option>
+              </select>
             </div>
+
+            <div class="hidden md:flex space-x-4">
+              <button
+                onclick="scrollToSection('concierge')"
+                class="text-slate-600 hover:text-sky-600 font-medium text-dynamic"
+                data-key="nav.diag"
+              >
+                推薦診斷
+              </button>
+              <button
+                onclick="scrollToSection('price-chart')"
+                class="text-slate-600 hover:text-sky-600 font-medium text-dynamic"
+                data-key="nav.price"
+              >
+                價格比較
+              </button>
+              <button
+                onclick="scrollToSection('details')"
+                class="text-slate-600 hover:text-sky-600 font-medium text-dynamic"
+                data-key="nav.details"
+              >
+                詳細規格
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+      <!-- Hero Section -->
+      <section class="text-center space-y-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight text-dynamic" data-key="hero.h1">
+          在愛妮島尋找最棒的潛水體驗
+        </h1>
+        <p class="text-xl text-slate-600 max-w-2xl mx-auto whitespace-pre-line text-dynamic" data-key="hero.p">
+          深度比較三個主要潛水中心（EL DIVE, 200 Bar, Tabanka Divers）。 幫助您輕鬆找到最符合需求的潛店。
+        </p>
+      </section>
 
-        <!-- Hero Section -->
-        <section class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight text-dynamic" data-key="hero.h1">
-                在愛妮島尋找最棒的潛水體驗
-            </h1>
-            <p class="text-xl text-slate-600 max-w-2xl mx-auto whitespace-pre-line text-dynamic" data-key="hero.p">
-                深度比較三個主要潛水中心（EL DIVE, 200 Bar, Tabanka Divers）。
-                幫助您輕鬆找到最符合需求的潛店。
+      <!-- Interactive Concierge Section -->
+      <section id="concierge" class="bg-white rounded-2xl shadow-lg p-6 md:p-10 border border-slate-100">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-3 text-dynamic" data-key="concierge.h2">⚡ 潛水店推薦診斷</h2>
+            <p class="text-slate-600 whitespace-pre-line text-dynamic" data-key="concierge.p">
+              此區將根據您的優先順序，為您推薦最適合的潛水中心。 請選擇您最重視的項目。
             </p>
-        </section>
+          </div>
 
-        <!-- Interactive Concierge Section -->
-        <section id="concierge" class="bg-white rounded-2xl shadow-lg p-6 md:p-10 border border-slate-100">
-            <div class="max-w-3xl mx-auto">
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl font-bold text-slate-800 mb-3 text-dynamic" data-key="concierge.h2">⚡ 潛水店推薦診斷</h2>
-                    <p class="text-slate-600 whitespace-pre-line text-dynamic" data-key="concierge.p">
-                        此區將根據您的優先順序，為您推薦最適合的潛水中心。
-                        請選擇您最重視的項目。
-                    </p>
-                </div>
+          <!-- Priority Buttons -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <button
+              onclick="selectPriority('language')"
+              id="btn-language"
+              class="priority-btn p-4 rounded-xl border-2 border-slate-200 hover:border-sky-500 hover:bg-sky-50 transition-all group text-left"
+            >
+              <div class="font-bold text-lg mb-1 group-hover:text-sky-700 text-dynamic" data-key="concierge.language.title">
+                🗣️ 日語教練
+              </div>
+              <div class="text-sm text-slate-500 text-dynamic" data-key="concierge.language.desc">希望沒有語言障礙，安心學習</div>
+            </button>
+            <button
+              onclick="selectPriority('speed')"
+              id="btn-speed"
+              class="priority-btn p-4 rounded-xl border-2 border-slate-200 hover:border-orange-500 hover:bg-orange-50 transition-all group text-left"
+            >
+              <div class="font-bold text-lg mb-1 group-hover:text-orange-700 text-dynamic" data-key="concierge.speed.title">
+                🚤 交通速度/效率
+              </div>
+              <div class="text-sm text-slate-500 text-dynamic" data-key="concierge.speed.desc">想節省交通時間，更有效率地潛水</div>
+            </button>
+            <button
+              onclick="selectPriority('stay')"
+              id="btn-stay"
+              class="priority-btn p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all group text-left"
+            >
+              <div class="font-bold text-lg mb-1 group-hover:text-emerald-700 text-dynamic" data-key="concierge.stay.title">
+                🏨 潛水+住宿整合
+              </div>
+              <div class="text-sm text-slate-500 text-dynamic" data-key="concierge.stay.desc">希望住宿和潛水能一站式安排</div>
+            </button>
+          </div>
 
-                <!-- Priority Buttons -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <button onclick="selectPriority('language')" id="btn-language" class="priority-btn p-4 rounded-xl border-2 border-slate-200 hover:border-sky-500 hover:bg-sky-50 transition-all group text-left">
-                        <div class="font-bold text-lg mb-1 group-hover:text-sky-700 text-dynamic" data-key="concierge.language.title">🗣️ 日語教練</div>
-                        <div class="text-sm text-slate-500 text-dynamic" data-key="concierge.language.desc">希望沒有語言障礙，安心學習</div>
-                    </button>
-                    <button onclick="selectPriority('speed')" id="btn-speed" class="priority-btn p-4 rounded-xl border-2 border-slate-200 hover:border-orange-500 hover:bg-orange-50 transition-all group text-left">
-                        <div class="font-bold text-lg mb-1 group-hover:text-orange-700 text-dynamic" data-key="concierge.speed.title">🚤 交通速度/效率</div>
-                        <div class="text-sm text-slate-500 text-dynamic" data-key="concierge.speed.desc">想節省交通時間，更有效率地潛水</div>
-                    </button>
-                    <button onclick="selectPriority('stay')" id="btn-stay" class="priority-btn p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all group text-left">
-                        <div class="font-bold text-lg mb-1 group-hover:text-emerald-700 text-dynamic" data-key="concierge.stay.title">🏨 潛水+住宿整合</div>
-                        <div class="text-sm text-slate-500 text-dynamic" data-key="concierge.stay.desc">希望住宿和潛水能一站式安排</div>
-                    </button>
+          <!-- Recommendation Result -->
+          <div id="recommendation-result" class="hidden animate-fade-in bg-slate-50 rounded-xl p-6 border-l-4 border-sky-500">
+            <div class="flex flex-col md:flex-row gap-6 items-start">
+              <div class="flex-1">
+                <h3 id="result-title" class="text-2xl font-bold text-slate-900 mb-2"></h3>
+                <p id="result-desc" class="text-slate-700 mb-4"></p>
+                <ul id="result-features" class="space-y-2 mb-4">
+                  <!-- Features injected via JS -->
+                </ul>
+                <a
+                  id="result-link"
+                  href="#"
+                  target="_blank"
+                  class="inline-block bg-sky-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-sky-700 transition-colors text-dynamic"
+                  data-key="concierge.result_link"
+                  >前往官方網站</a
+                >
+              </div>
+              <div class="w-full md:w-1/3 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                <div class="text-xs text-slate-500 uppercase font-semibold mb-2 text-dynamic" data-key="concierge.result_label">
+                  主要特點
                 </div>
-
-                <!-- Recommendation Result -->
-                <div id="recommendation-result" class="hidden animate-fade-in bg-slate-50 rounded-xl p-6 border-l-4 border-sky-500">
-                    <div class="flex flex-col md:flex-row gap-6 items-start">
-                        <div class="flex-1">
-                            <h3 id="result-title" class="text-2xl font-bold text-slate-900 mb-2"></h3>
-                            <p id="result-desc" class="text-slate-700 mb-4"></p>
-                            <ul id="result-features" class="space-y-2 mb-4">
-                                <!-- Features injected via JS -->
-                            </ul>
-                            <a id="result-link" href="#" target="_blank" class="inline-block bg-sky-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-sky-700 transition-colors text-dynamic" data-key="concierge.result_link">前往官方網站</a>
-                        </div>
-                        <div class="w-full md:w-1/3 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                            <div class="text-xs text-slate-500 uppercase font-semibold mb-2 text-dynamic" data-key="concierge.result_label">主要特點</div>
-                            <div id="result-tags" class="flex flex-wrap gap-2">
-                                <!-- Tags injected via JS -->
-                            </div>
-                        </div>
-                    </div>
+                <div id="result-tags" class="flex flex-wrap gap-2">
+                  <!-- Tags injected via JS -->
                 </div>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <!-- Price Chart Section -->
-        <section id="price-chart" class="space-y-6">
-            <div class="md:text-center">
-                <h2 class="text-2xl font-bold text-slate-800 text-dynamic" data-key="price_chart.h2">💰 價格比較圖表</h2>
-                <p class="text-slate-600 mt-2 whitespace-pre-line text-dynamic" data-key="price_chart.p">
-                    這是樂趣潛水（2支）、開放水域（OW）和進階開放水域（AOW）課程的價格比較。
-                    透過視覺化圖表，您可以清晰看到成本差異。
-                </p>
+      <!-- Price Chart Section -->
+      <section id="price-chart" class="space-y-6">
+        <div class="md:text-center">
+          <h2 class="text-2xl font-bold text-slate-800 text-dynamic" data-key="price_chart.h2">💰 價格比較圖表</h2>
+          <p class="text-slate-600 mt-2 whitespace-pre-line text-dynamic" data-key="price_chart.p">
+            這是樂趣潛水（2支）、開放水域（OW）和進階開放水域（AOW）課程的價格比較。 透過視覺化圖表，您可以清晰看到成本差異。
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
+          <!-- Chart Container -->
+          <div class="chart-container">
+            <canvas id="costChart"></canvas>
+          </div>
+          <div class="mt-4 text-center text-sm text-slate-500 text-dynamic" data-key="concierge.currency_note">
+            ※ 貨幣單位為菲律賓比索 (PHP)。最新價格請以各潛店官網為準。
+          </div>
+        </div>
+      </section>
+
+      <!-- Detailed Comparison Section -->
+      <section id="details" class="space-y-6">
+        <div class="md:text-center">
+          <h2 class="text-2xl font-bold text-slate-800 text-dynamic" data-key="details.h2">📊 詳細規格比較</h2>
+          <p class="text-slate-600 mt-2 whitespace-pre-line text-dynamic" data-key="details.p">
+            比較課程結構、船型、付款選項等細節。 卡片化的設計讓您在手機上也能輕鬆閱讀。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- EL DIVE Card -->
+          <div
+            class="shop-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200 flex flex-col"
+          >
+            <div class="bg-sky-50 p-4 border-b border-sky-100">
+              <h3 class="text-xl font-bold text-sky-800 shop-name">EL DIVE</h3>
+              <div class="text-sm text-sky-600 shop-card-desc" data-key="shop.elDive.card_desc">日語服務・極低師生比</div>
             </div>
-            
-            <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
-                <!-- Chart Container -->
-                <div class="chart-container">
-                    <canvas id="costChart"></canvas>
+            <div class="p-6 flex-1 space-y-4">
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.boat_type">船型</span>
+                <div class="text-slate-800 font-medium shop-boat" data-key="shop.elDive.boat">傳統螃蟹船 (Bangka)</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.ratio">師生比 (OW)</span>
+                <div class="text-slate-800 font-medium text-lg">
+                  2:1
+                  <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded ml-2 text-dynamic" data-key="details.low_ratio"
+                    >極低</span
+                  >
                 </div>
-                <div class="mt-4 text-center text-sm text-slate-500 text-dynamic" data-key="concierge.currency_note">
-                    ※ 貨幣單位為菲律賓比索 (PHP)。最新價格請以各潛店官網為準。
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.jp_inst">日語教練</span>
+                <div class="text-slate-800 font-medium flex items-center">
+                  <span class="text-green-600 mr-2">●</span> <span class="text-dynamic" data-key="details.yes">有</span>
                 </div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.aow_perk">AOW 特色</span>
+                <div class="text-slate-800 font-medium shop-aow-perk" data-key="shop.elDive.aow_perk">贈送潛水</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.fees">付款手續費</span>
+                <div class="text-slate-800 font-medium text-dynamic" data-key="details.undocumented">未特別註明</div>
+              </div>
             </div>
-        </section>
-
-        <!-- Detailed Comparison Section -->
-        <section id="details" class="space-y-6">
-            <div class="md:text-center">
-                <h2 class="text-2xl font-bold text-slate-800 text-dynamic" data-key="details.h2">📊 詳細規格比較</h2>
-                <p class="text-slate-600 mt-2 whitespace-pre-line text-dynamic" data-key="details.p">
-                    比較課程結構、船型、付款選項等細節。
-                    卡片化的設計讓您在手機上也能輕鬆閱讀。
-                </p>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+              <a
+                href="https://www.el-dive.com/"
+                target="_blank"
+                class="text-sky-600 hover:text-sky-800 font-medium text-sm flex items-center justify-center text-dynamic"
+                data-key="details.view_site"
+              >
+                前往官網 <span>→</span>
+              </a>
             </div>
+          </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <!-- EL DIVE Card -->
-                <div class="shop-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200 flex flex-col">
-                    <div class="bg-sky-50 p-4 border-b border-sky-100">
-                        <h3 class="text-xl font-bold text-sky-800 shop-name">EL DIVE</h3>
-                        <div class="text-sm text-sky-600 shop-card-desc" data-key="shop.elDive.card_desc">日語服務・極低師生比</div>
-                    </div>
-                    <div class="p-6 flex-1 space-y-4">
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.boat_type">船型</span>
-                            <div class="text-slate-800 font-medium shop-boat" data-key="shop.elDive.boat">傳統螃蟹船 (Bangka)</div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.ratio">師生比 (OW)</span>
-                            <div class="text-slate-800 font-medium text-lg">2:1 <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded ml-2 text-dynamic" data-key="details.low_ratio">極低</span></div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.jp_inst">日語教練</span>
-                            <div class="text-slate-800 font-medium flex items-center">
-                                <span class="text-green-600 mr-2">●</span> <span class="text-dynamic" data-key="details.yes">有</span>
-                            </div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.aow_perk">AOW 特色</span>
-                            <div class="text-slate-800 font-medium shop-aow-perk" data-key="shop.elDive.aow_perk">贈送潛水</div>
-                        </div>
-                         <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.fees">付款手續費</span>
-                            <div class="text-slate-800 font-medium text-dynamic" data-key="details.undocumented">未特別註明</div>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
-                         <a href="https://www.el-dive.com/" target="_blank" class="text-sky-600 hover:text-sky-800 font-medium text-sm flex items-center justify-center text-dynamic" data-key="details.view_site">
-                            前往官網 <span>→</span>
-                        </a>
-                    </div>
+          <!-- 200 Bar Card -->
+          <div
+            class="shop-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200 flex flex-col"
+          >
+            <div class="bg-orange-50 p-4 border-b border-orange-100">
+              <h3 class="text-xl font-bold text-orange-800 shop-name">200 Bar Diving</h3>
+              <div class="text-sm text-orange-600 shop-card-desc" data-key="shop.twoHundredBar.card_desc">快速船・GoPro 免費</div>
+            </div>
+            <div class="p-6 flex-1 space-y-4">
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.boat_type">船型</span>
+                <div class="text-slate-800 font-medium shop-boat" data-key="shop.twoHundredBar.boat">快速船 (Speedboat)</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.ratio">師生比 (OW)</span>
+                <div class="text-slate-800 font-medium">Max 4:1</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.jp_inst">日語教練</span>
+                <div class="text-slate-800 font-medium flex items-center">
+                  <span class="text-slate-400 mr-2">○</span> <span class="text-dynamic" data-key="details.no">無</span>
                 </div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.aow_perk">AOW 特色</span>
+                <div class="text-slate-800 font-medium shop-aow-perk" data-key="shop.twoHundredBar.aow_perk">免費 GoPro 影片</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.fees">付款手續費</span>
+                <div class="text-slate-800 font-medium text-dynamic" data-key="details.cash_0">現金 0% / 線上 4%</div>
+              </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+              <a
+                href="https://200bardivingcenterneldnido.com/"
+                target="_blank"
+                class="text-orange-600 hover:text-orange-800 font-medium text-sm flex items-center justify-center text-dynamic"
+                data-key="details.view_site"
+              >
+                前往官網 <span>→</span>
+              </a>
+            </div>
+          </div>
 
-                <!-- 200 Bar Card -->
-                <div class="shop-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200 flex flex-col">
-                    <div class="bg-orange-50 p-4 border-b border-orange-100">
-                        <h3 class="text-xl font-bold text-orange-800 shop-name">200 Bar Diving</h3>
-                        <div class="text-sm text-orange-600 shop-card-desc" data-key="shop.twoHundredBar.card_desc">快速船・GoPro 免費</div>
-                    </div>
-                    <div class="p-6 flex-1 space-y-4">
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.boat_type">船型</span>
-                            <div class="text-slate-800 font-medium shop-boat" data-key="shop.twoHundredBar.boat">快速船 (Speedboat)</div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.ratio">師生比 (OW)</span>
-                            <div class="text-slate-800 font-medium">Max 4:1</div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.jp_inst">日語教練</span>
-                            <div class="text-slate-800 font-medium flex items-center">
-                                <span class="text-slate-400 mr-2">○</span> <span class="text-dynamic" data-key="details.no">無</span>
-                            </div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.aow_perk">AOW 特色</span>
-                            <div class="text-slate-800 font-medium shop-aow-perk" data-key="shop.twoHundredBar.aow_perk">免費 GoPro 影片</div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.fees">付款手續費</span>
-                            <div class="text-slate-800 font-medium text-dynamic" data-key="details.cash_0">現金 0% / 線上 4%</div>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
-                        <a href="https://200bardivingcenterneldnido.com/" target="_blank" class="text-orange-600 hover:text-orange-800 font-medium text-sm flex items-center justify-center text-dynamic" data-key="details.view_site">
-                           前往官網 <span>→</span>
-                       </a>
-                   </div>
+          <!-- Tabanka Card -->
+          <div
+            class="shop-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200 flex flex-col"
+          >
+            <div class="bg-emerald-50 p-4 border-b border-emerald-100">
+              <h3 class="text-xl font-bold text-emerald-800 shop-name">Tabanka Divers</h3>
+              <div class="text-sm text-emerald-600 shop-card-desc" data-key="shop.tabanka.card_desc">潛宿整合・AOW 贈送潛水</div>
+            </div>
+            <div class="p-6 flex-1 space-y-4">
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.boat_type">船型</span>
+                <div class="text-slate-800 font-medium shop-boat" data-key="shop.tabanka.boat">螃蟹船 + 小艇接駁</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.ratio">師生比 (OW)</span>
+                <div class="text-slate-800 font-medium">Max 4:1</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.jp_inst">日語教練</span>
+                <div class="text-slate-800 font-medium flex items-center">
+                  <span class="text-slate-400 mr-2">○</span> <span class="text-dynamic" data-key="details.no">無</span>
                 </div>
-
-                <!-- Tabanka Card -->
-                <div class="shop-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200 flex flex-col">
-                    <div class="bg-emerald-50 p-4 border-b border-emerald-100">
-                        <h3 class="text-xl font-bold text-emerald-800 shop-name">Tabanka Divers</h3>
-                        <div class="text-sm text-emerald-600 shop-card-desc" data-key="shop.tabanka.card_desc">潛宿整合・AOW 贈送潛水</div>
-                    </div>
-                    <div class="p-6 flex-1 space-y-4">
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.boat_type">船型</span>
-                            <div class="text-slate-800 font-medium shop-boat" data-key="shop.tabanka.boat">螃蟹船 + 小艇接駁</div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.ratio">師生比 (OW)</span>
-                            <div class="text-slate-800 font-medium">Max 4:1</div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.jp_inst">日語教練</span>
-                            <div class="text-slate-800 font-medium flex items-center">
-                                <span class="text-slate-400 mr-2">○</span> <span class="text-dynamic" data-key="details.no">無</span>
-                            </div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.aow_perk">特色服務</span>
-                            <div class="text-slate-800 font-medium shop-aow-perk" data-key="shop.tabanka.aow_perk">潛宿整合、AOW 贈送潛水</div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.fees">付款手續費</span>
-                            <div class="text-slate-800 font-medium text-dynamic" data-key="details.card_6">信用卡/PayPal +6%</div>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
-                        <a href="https://www.tabankadivers.com/" target="_blank" class="text-emerald-600 hover:text-emerald-800 font-medium text-sm flex items-center justify-center text-dynamic" data-key="details.view_site">
-                           前往官網 <span>→</span>
-                       </a>
-                   </div>
-                </div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.aow_perk">特色服務</span>
+                <div class="text-slate-800 font-medium shop-aow-perk" data-key="shop.tabanka.aow_perk">潛宿整合、AOW 贈送潛水</div>
+              </div>
+              <div class="detail-row">
+                <span class="text-xs font-semibold text-slate-400 uppercase text-dynamic" data-key="details.fees">付款手續費</span>
+                <div class="text-slate-800 font-medium text-dynamic" data-key="details.card_6">信用卡/PayPal +6%</div>
+              </div>
             </div>
-        </section>
-
-        <!-- Comparison Table (For full data view) -->
-        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="p-6 border-b border-slate-100">
-                <h3 class="font-bold text-lg text-slate-800 text-dynamic" data-key="table.h3">📋 完整數據一覽</h3>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+              <a
+                href="https://www.tabankadivers.com/"
+                target="_blank"
+                class="text-emerald-600 hover:text-emerald-800 font-medium text-sm flex items-center justify-center text-dynamic"
+                data-key="details.view_site"
+              >
+                前往官網 <span>→</span>
+              </a>
             </div>
-            <div class="overflow-x-auto custom-scrollbar">
-                <table class="w-full text-sm text-left text-slate-600">
-                    <thead class="text-xs text-slate-700 uppercase bg-slate-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-4 rounded-tl-lg text-dynamic" data-key="table.item">項目</th>
-                            <th scope="col" class="px-6 py-4 font-bold text-sky-700">EL DIVE</th>
-                            <th scope="col" class="px-6 py-4 font-bold text-orange-700">200 Bar</th>
-                            <th scope="col" class="px-6 py-4 font-bold text-emerald-700">Tabanka</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="price_chart.label_fun2">Fun Dive (2支)</td>
-                            <td class="px-6 py-4">₱4,500</td>
-                            <td class="px-6 py-4">₱4,300 - 4,500</td>
-                            <td class="px-6 py-4">₱4,800</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900 text-dynamic">Fun Dive (3支)</td>
-                            <td class="px-6 py-4">₱5,200</td>
-                            <td class="px-6 py-4">~₱5,200</td>
-                            <td class="px-6 py-4">₱5,400</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="price_chart.label_ow">OW 課程</td>
-                            <td class="px-6 py-4">₱23,500 <br><span class="text-xs text-slate-400 text-dynamic" data-key="table.ow_struct">2天 / 6支氣瓶</span></td>
-                            <td class="px-6 py-4">₱22,500 <br><span class="text-xs text-slate-400 text-dynamic" data-key="table.std_struct">標準4支氣瓶</span></td>
-                            <td class="px-6 py-4">₱22,900 <br><span class="text-xs text-slate-400 text-dynamic" data-key="table.std_struct">標準4支氣瓶</span></td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="price_chart.label_aow">AOW 課程</td>
-                            <td class="px-6 py-4">₱21,000</td>
-                            <td class="px-6 py-4">₱19,500</td>
-                            <td class="px-6 py-4">₱20,900</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="table.lunch">午餐</td>
-                            <td class="px-6 py-4 text-green-600 text-dynamic" data-key="table.lunch_inc">✔ 包含</td>
-                            <td class="px-6 py-4 text-green-600 text-dynamic" data-key="table.lunch_inc">✔ 包含</td>
-                            <td class="px-6 py-4 text-green-600 text-dynamic" data-key="table.lunch_inc">✔ 包含</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
+      <!-- Comparison Table (For full data view) -->
+      <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-6 border-b border-slate-100">
+          <h3 class="font-bold text-lg text-slate-800 text-dynamic" data-key="table.h3">📋 完整數據一覽</h3>
+        </div>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-sm text-left text-slate-600">
+            <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+              <tr>
+                <th scope="col" class="px-6 py-4 rounded-tl-lg text-dynamic" data-key="table.item">項目</th>
+                <th scope="col" class="px-6 py-4 font-bold text-sky-700">EL DIVE</th>
+                <th scope="col" class="px-6 py-4 font-bold text-orange-700">200 Bar</th>
+                <th scope="col" class="px-6 py-4 font-bold text-emerald-700">Tabanka</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="price_chart.label_fun2">Fun Dive (2支)</td>
+                <td class="px-6 py-4">₱4,500</td>
+                <td class="px-6 py-4">₱4,300 - 4,500</td>
+                <td class="px-6 py-4">₱4,800</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4 font-medium text-slate-900 text-dynamic">Fun Dive (3支)</td>
+                <td class="px-6 py-4">₱5,200</td>
+                <td class="px-6 py-4">~₱5,200</td>
+                <td class="px-6 py-4">₱5,400</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="price_chart.label_ow">OW 課程</td>
+                <td class="px-6 py-4">
+                  ₱23,500 <br /><span class="text-xs text-slate-400 text-dynamic" data-key="table.ow_struct">2天 / 6支氣瓶</span>
+                </td>
+                <td class="px-6 py-4">
+                  ₱22,500 <br /><span class="text-xs text-slate-400 text-dynamic" data-key="table.std_struct">標準4支氣瓶</span>
+                </td>
+                <td class="px-6 py-4">
+                  ₱22,900 <br /><span class="text-xs text-slate-400 text-dynamic" data-key="table.std_struct">標準4支氣瓶</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="price_chart.label_aow">AOW 課程</td>
+                <td class="px-6 py-4">₱21,000</td>
+                <td class="px-6 py-4">₱19,500</td>
+                <td class="px-6 py-4">₱20,900</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4 font-medium text-slate-900 text-dynamic" data-key="table.lunch">午餐</td>
+                <td class="px-6 py-4 text-green-600 text-dynamic" data-key="table.lunch_inc">✔ 包含</td>
+                <td class="px-6 py-4 text-green-600 text-dynamic" data-key="table.lunch_inc">✔ 包含</td>
+                <td class="px-6 py-4 text-green-600 text-dynamic" data-key="table.lunch_inc">✔ 包含</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
 
     <footer class="bg-slate-800 text-slate-300 py-10 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="mb-4">© 2025 El Nido Diving Comparison Tool</p>
-            <p class="text-xs text-slate-500 text-dynamic" data-key="footer.disclaimer">
-                免責聲明：所列價格和資訊可能會變動。請以各潛水中心的官方網站最新資訊為準。
-            </p>
-        </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="mb-4">© 2025 El Nido Diving Comparison Tool</p>
+        <p class="text-xs text-slate-500 text-dynamic" data-key="footer.disclaimer">
+          免責聲明：所列價格和資訊可能會變動。請以各潛水中心的官方網站最新資訊為準。
+        </p>
+      </div>
     </footer>
 
     <script>
-        const shopRawData = {
-            elDive: { fun2: 4500, fun3: 5200, ow: 23500, aow: 21000, url: "https://www.el-dive.com/", color: 'rgba(14, 165, 233, 0.8)', borderColor: 'rgba(14, 165, 233, 1)' },
-            twoHundredBar: { fun2: 4400, fun3: 5200, ow: 22500, aow: 19500, url: "https://200bardivingcenterneldnido.com/", color: 'rgba(249, 115, 22, 0.8)', borderColor: 'rgba(249, 115, 22, 1)' },
-            tabanka: { fun2: 4800, fun3: 5400, ow: 22900, aow: 20900, url: "https://www.tabankadivers.com/", color: 'rgba(16, 185, 129, 0.8)', borderColor: 'rgba(16, 185, 129, 1)' }
-        };
+      const shopRawData = {
+        elDive: {
+          fun2: 4500,
+          fun3: 5200,
+          ow: 23500,
+          aow: 21000,
+          url: "https://www.el-dive.com/",
+          color: "rgba(14, 165, 233, 0.8)",
+          borderColor: "rgba(14, 165, 233, 1)",
+        },
+        twoHundredBar: {
+          fun2: 4400,
+          fun3: 5200,
+          ow: 22500,
+          aow: 19500,
+          url: "https://200bardivingcenterneldnido.com/",
+          color: "rgba(249, 115, 22, 0.8)",
+          borderColor: "rgba(249, 115, 22, 1)",
+        },
+        tabanka: {
+          fun2: 4800,
+          fun3: 5400,
+          ow: 22900,
+          aow: 20900,
+          url: "https://www.tabankadivers.com/",
+          color: "rgba(16, 185, 129, 0.8)",
+          borderColor: "rgba(16, 185, 129, 1)",
+        },
+      };
 
-        const multilingualData = {
-            'ja': {
-                nav: { title: "エルニド ダイビングセンター比較ナビ", diag: "おすすめ診断", price: "料金比較", details: "詳細データ" },
-                hero: { h1: "エルニドで最高のダイビング体験を", p: "3つの主要ダイビングセンター（EL DIVE, 200 Bar, Tabanka Divers）を徹底比較。\nあなたにぴったりのショップを見つけましょう。" },
-                concierge: {
-                    h2: "⚡ ダイビングショップ診断", p: "このセクションでは、あなたの優先順位に基づいて最適なショップを提案します。\n最も重視するポイントを選んでください。",
-                    language: { title: "🗣️ 日本語サポート", desc: "言葉の壁なく安心して学びたい" },
-                    speed: { title: "🚤 移動の速さ・効率", desc: "移動時間を短縮して楽しみたい" },
-                    stay: { title: "🏨 宿泊＋ダイビング", desc: "宿とダイビングをまとめて手配" },
-                    result_label: "主な特徴", result_link: "公式サイトへ", currency_note: "※ 通貨はフィリピンペソ (PHP) です。最新の料金は各公式サイトをご確認ください。"
-                },
-                price_chart: { h2: "💰 料金比較チャート", p: "ファンダイビング（2本）、オープンウォーター（OW）、アドバンス（AOW）の料金比較です。\n視覚的にコストの違いを確認できます。", y_axis: "価格 (PHP)", label_fun2: "Fun Dive (2本)", label_ow: "OW コース", label_aow: "AOW コース" },
-                details: {
-                    h2: "📊 詳細スペック比較", p: "コース構成、ボートの種類、支払いオプションなど、細かな条件を比較します。\nカードをクリックすると詳細が強調表示されます。", boat_type: "ボートの種類", ratio: "講師・生徒比 (OW)", jp_inst: "日本語インストラクター", aow_perk: "AOW特典", fees: "支払い手数料",
-                    low_ratio: "非常に低い", yes: "あり", no: "なし", undocumented: "未記載", cash_0: "現金 0% / オンライン 4%", card_6: "カード/PayPal +6%", view_site: "公式サイトを見る <span>→</span>",
-                },
-                table: { h3: "📋 全データ一覧", item: "項目", lunch: "ランチ", lunch_inc: "✔ 含む", ow_struct: "2日 / 6タンク", std_struct: "標準4タンク", },
-                shop: {
-                    elDive: { name: "EL DIVE", desc: "日本語でのきめ細やかなサポートを重視するなら間違いなくここ。OWコースの内容が非常に充実しており、初心者でも自信を持ってライセンス取得が可能です。", features: ["日本人インストラクター常駐", "OWコースで6本潜れる（通常4本）", "徹底した少人数制 (2:1)"], tags: ["日本語OK", "初心者安心", "たくさん潜れる"], card_desc: "日本語対応・少人数制", boat: "伝統的なバンカ船", aow_perk: "ファンダイブ付き" },
-                    twoHundredBar: { name: "200 Bar Diving Center", desc: "スピードボートを利用するため、移動時間を短縮して時間を有効に使いたい方に最適。コース料金も比較的安価で、GoPro動画の特典も魅力的です。", features: ["スピードボートで移動時間が短い", "GoPro動画無料プレゼント", "コース料金がリーズナブル"], tags: ["スピードボート", "コスパ良", "動画無料"], card_desc: "スピードボート・GoPro無料", boat: "スピードボート", aow_perk: "無料GoPro動画" },
-                    tabanka: { name: "Tabanka Divers", desc: "宿泊とダイビングをまとめて手配できるため、ロジスティクスの手間を省きたい方におすすめ。伝統的なバンカ船と小型ボートを組み合わせた快適な送迎も特徴です。", features: ["宿泊施設とダイビングが一体化", "小型ボートでのスムーズな送迎", "AOWにファンダイブが無料で付属"], tags: ["宿泊一体型", "快適送迎", "AOW特典"], card_desc: "宿泊一体型・ボート送迎", boat: "バンカ船 + 小型ボート送迎", aow_perk: "ファンダイブ付き" }
-                },
-                footer: { disclaimer: "免責事項：掲載されている価格や情報は変更される可能性があります。最新の情報は各ダイビングセンターの公式ウェブサイトをご確認ください。" }
+      const multilingualData = {
+        ja: {
+          nav: { title: "エルニド ダイビングセンター比較ナビ", diag: "おすすめ診断", price: "料金比較", details: "詳細データ" },
+          hero: {
+            h1: "エルニドで最高のダイビング体験を",
+            p: "3つの主要ダイビングセンター（EL DIVE, 200 Bar, Tabanka Divers）を徹底比較。\nあなたにぴったりのショップを見つけましょう。",
+          },
+          concierge: {
+            h2: "⚡ ダイビングショップ診断",
+            p: "このセクションでは、あなたの優先順位に基づいて最適なショップを提案します。\n最も重視するポイントを選んでください。",
+            language: { title: "🗣️ 日本語サポート", desc: "言葉の壁なく安心して学びたい" },
+            speed: { title: "🚤 移動の速さ・効率", desc: "移動時間を短縮して楽しみたい" },
+            stay: { title: "🏨 宿泊＋ダイビング", desc: "宿とダイビングをまとめて手配" },
+            result_label: "主な特徴",
+            result_link: "公式サイトへ",
+            currency_note: "※ 通貨はフィリピンペソ (PHP) です。最新の料金は各公式サイトをご確認ください。",
+          },
+          price_chart: {
+            h2: "💰 料金比較チャート",
+            p: "ファンダイビング（2本）、オープンウォーター（OW）、アドバンス（AOW）の料金比較です。\n視覚的にコストの違いを確認できます。",
+            y_axis: "価格 (PHP)",
+            label_fun2: "Fun Dive (2本)",
+            label_ow: "OW コース",
+            label_aow: "AOW コース",
+          },
+          details: {
+            h2: "📊 詳細スペック比較",
+            p: "コース構成、ボートの種類、支払いオプションなど、細かな条件を比較します。\nカードをクリックすると詳細が強調表示されます。",
+            boat_type: "ボートの種類",
+            ratio: "講師・生徒比 (OW)",
+            jp_inst: "日本語インストラクター",
+            aow_perk: "AOW特典",
+            fees: "支払い手数料",
+            low_ratio: "非常に低い",
+            yes: "あり",
+            no: "なし",
+            undocumented: "未記載",
+            cash_0: "現金 0% / オンライン 4%",
+            card_6: "カード/PayPal +6%",
+            view_site: "公式サイトを見る <span>→</span>",
+          },
+          table: {
+            h3: "📋 全データ一覧",
+            item: "項目",
+            lunch: "ランチ",
+            lunch_inc: "✔ 含む",
+            ow_struct: "2日 / 6タンク",
+            std_struct: "標準4タンク",
+          },
+          shop: {
+            elDive: {
+              name: "EL DIVE",
+              desc: "日本語でのきめ細やかなサポートを重視するなら間違いなくここ。OWコースの内容が非常に充実しており、初心者でも自信を持ってライセンス取得が可能です。",
+              features: ["日本人インストラクター常駐", "OWコースで6本潜れる（通常4本）", "徹底した少人数制 (2:1)"],
+              tags: ["日本語OK", "初心者安心", "たくさん潜れる"],
+              card_desc: "日本語対応・少人数制",
+              boat: "伝統的なバンカ船",
+              aow_perk: "ファンダイブ付き",
             },
-            'zh-TW': {
-                nav: { title: "愛妮島潛水指南", diag: "推薦診斷", price: "價格比較", details: "詳細規格" },
-                hero: { h1: "在愛妮島尋找最棒的潛水體驗", p: "深度比較三個主要潛水中心（EL DIVE, 200 Bar, Tabanka Divers）。\n幫助您輕鬆找到最符合需求的潛店。" },
-                concierge: {
-                    h2: "⚡ 潛水店推薦診斷", p: "此區將根據您的優先順序，為您推薦最適合的潛水中心。\n請選擇您最重視的項目。",
-                    language: { title: "🗣️ 日語教練", desc: "希望沒有語言障礙，安心學習" },
-                    speed: { title: "🚤 交通速度/效率", desc: "想節省交通時間，更有效率地潛水" },
-                    stay: { title: "🏨 潛水+住宿整合", desc: "希望住宿和潛水能一站式安排" },
-                    result_label: "主要特點", result_link: "前往官方網站", currency_note: "※ 貨幣單位為菲律賓比索 (PHP)。最新價格請以各潛店官網為準。"
-                },
-                price_chart: { h2: "💰 價格比較圖表", p: "這是樂趣潛水（2支）、開放水域（OW）和進階開放水域（AOW）課程的價格比較。\n透過視覺化圖表，您可以清晰看到成本差異。", y_axis: "價格 (PHP)", label_fun2: "Fun Dive (2支)", label_ow: "OW 課程", label_aow: "AOW 課程" },
-                details: {
-                    h2: "📊 詳細規格比較", p: "比較課程結構、船型、付款選項等細節。\n卡片化的設計讓您在手機上也能輕鬆閱讀。", boat_type: "船型", ratio: "師生比 (OW)", jp_inst: "日語教練", aow_perk: "AOW 特色", fees: "付款手續費",
-                    low_ratio: "極低", yes: "有", no: "無", undocumented: "未特別註明", cash_0: "現金 0% / 線上 4%", card_6: "信用卡/PayPal +6%", view_site: "前往官網 <span>→</span>",
-                },
-                table: { h3: "📋 完整數據一覽", item: "項目", lunch: "午餐", lunch_inc: "✔ 包含", ow_struct: "2天 / 6支氣瓶", std_struct: "標準4支氣瓶", },
-                shop: {
-                    elDive: { name: "EL DIVE", desc: "日語教練常駐，若您重視細緻的中文服務與安心感，這裡無疑是首選。OW 課程內容非常紮實，讓初學者能更自信地取得執照。", features: ["日語教練常駐", "OW 課程可潛 6 支氣瓶（通常為 4 支）", "徹底執行極低師生比 (2:1)"], tags: ["日語OK", "新手安心", "潛水次數多"], card_desc: "日語服務・極低師生比", boat: "傳統螃蟹船 (Bangka)", aow_perk: "贈送潛水" },
-                    twoHundredBar: { name: "200 Bar Diving Center", desc: "採用快速船，非常適合想縮短交通時間、有效利用潛水時間的遊客。課程價格相對實惠，還提供免費 GoPro 影片，非常吸引人。", features: ["使用快速船縮短交通時間", "免費贈送 GoPro 影片", "課程價格合理"], tags: ["快速船", "高CP值", "影片免費"], card_desc: "快速船・GoPro 免費", boat: "快速船 (Speedboat)", aow_perk: "免費 GoPro 影片" },
-                    tabanka: { name: "Tabanka Divers", desc: "提供潛水與住宿整合安排，能省去後勤安排的麻煩。結合傳統螃蟹船和小艇接駁，提供舒適的接送服務。", features: ["潛水與住宿設施整合", "使用小艇接駁，接送順暢", "AOW 課程免費附贈 Fun Dive"], tags: ["住宿整合", "接送方便", "AOW優惠"], card_desc: "潛宿整合・AOW 贈送潛水", boat: "螃蟹船 + 小艇接駁", aow_perk: "贈送潛水" }
-                },
-                footer: { disclaimer: "免責聲明：所列價格和資訊可能會變動。請以各潛水中心的官方網站最新資訊為準。" }
+            twoHundredBar: {
+              name: "200 Bar Diving Center",
+              desc: "スピードボートを利用するため、移動時間を短縮して時間を有効に使いたい方に最適。コース料金も比較的安価で、GoPro動画の特典も魅力的です。",
+              features: ["スピードボートで移動時間が短い", "GoPro動画無料プレゼント", "コース料金がリーズナブル"],
+              tags: ["スピードボート", "コスパ良", "動画無料"],
+              card_desc: "スピードボート・GoPro無料",
+              boat: "スピードボート",
+              aow_perk: "無料GoPro動画",
+            },
+            tabanka: {
+              name: "Tabanka Divers",
+              desc: "宿泊とダイビングをまとめて手配できるため、ロジスティクスの手間を省きたい方におすすめ。伝統的なバンカ船と小型ボートを組み合わせた快適な送迎も特徴です。",
+              features: ["宿泊施設とダイビングが一体化", "小型ボートでのスムーズな送迎", "AOWにファンダイブが無料で付属"],
+              tags: ["宿泊一体型", "快適送迎", "AOW特典"],
+              card_desc: "宿泊一体型・ボート送迎",
+              boat: "バンカ船 + 小型ボート送迎",
+              aow_perk: "ファンダイブ付き",
+            },
+          },
+          footer: {
+            disclaimer:
+              "免責事項：掲載されている価格や情報は変更される可能性があります。最新の情報は各ダイビングセンターの公式ウェブサイトをご確認ください。",
+          },
+        },
+        "zh-TW": {
+          nav: { title: "愛妮島潛水指南", diag: "推薦診斷", price: "價格比較", details: "詳細規格" },
+          hero: {
+            h1: "在愛妮島尋找最棒的潛水體驗",
+            p: "深度比較三個主要潛水中心（EL DIVE, 200 Bar, Tabanka Divers）。\n幫助您輕鬆找到最符合需求的潛店。",
+          },
+          concierge: {
+            h2: "⚡ 潛水店推薦診斷",
+            p: "此區將根據您的優先順序，為您推薦最適合的潛水中心。\n請選擇您最重視的項目。",
+            language: { title: "🗣️ 日語教練", desc: "希望沒有語言障礙，安心學習" },
+            speed: { title: "🚤 交通速度/效率", desc: "想節省交通時間，更有效率地潛水" },
+            stay: { title: "🏨 潛水+住宿整合", desc: "希望住宿和潛水能一站式安排" },
+            result_label: "主要特點",
+            result_link: "前往官方網站",
+            currency_note: "※ 貨幣單位為菲律賓比索 (PHP)。最新價格請以各潛店官網為準。",
+          },
+          price_chart: {
+            h2: "💰 價格比較圖表",
+            p: "這是樂趣潛水（2支）、開放水域（OW）和進階開放水域（AOW）課程的價格比較。\n透過視覺化圖表，您可以清晰看到成本差異。",
+            y_axis: "價格 (PHP)",
+            label_fun2: "Fun Dive (2支)",
+            label_ow: "OW 課程",
+            label_aow: "AOW 課程",
+          },
+          details: {
+            h2: "📊 詳細規格比較",
+            p: "比較課程結構、船型、付款選項等細節。\n卡片化的設計讓您在手機上也能輕鬆閱讀。",
+            boat_type: "船型",
+            ratio: "師生比 (OW)",
+            jp_inst: "日語教練",
+            aow_perk: "AOW 特色",
+            fees: "付款手續費",
+            low_ratio: "極低",
+            yes: "有",
+            no: "無",
+            undocumented: "未特別註明",
+            cash_0: "現金 0% / 線上 4%",
+            card_6: "信用卡/PayPal +6%",
+            view_site: "前往官網 <span>→</span>",
+          },
+          table: {
+            h3: "📋 完整數據一覽",
+            item: "項目",
+            lunch: "午餐",
+            lunch_inc: "✔ 包含",
+            ow_struct: "2天 / 6支氣瓶",
+            std_struct: "標準4支氣瓶",
+          },
+          shop: {
+            elDive: {
+              name: "EL DIVE",
+              desc: "日語教練常駐，若您重視細緻的中文服務與安心感，這裡無疑是首選。OW 課程內容非常紮實，讓初學者能更自信地取得執照。",
+              features: ["日語教練常駐", "OW 課程可潛 6 支氣瓶（通常為 4 支）", "徹底執行極低師生比 (2:1)"],
+              tags: ["日語OK", "新手安心", "潛水次數多"],
+              card_desc: "日語服務・極低師生比",
+              boat: "傳統螃蟹船 (Bangka)",
+              aow_perk: "贈送潛水",
+            },
+            twoHundredBar: {
+              name: "200 Bar Diving Center",
+              desc: "採用快速船，非常適合想縮短交通時間、有效利用潛水時間的遊客。課程價格相對實惠，還提供免費 GoPro 影片，非常吸引人。",
+              features: ["使用快速船縮短交通時間", "免費贈送 GoPro 影片", "課程價格合理"],
+              tags: ["快速船", "高CP值", "影片免費"],
+              card_desc: "快速船・GoPro 免費",
+              boat: "快速船 (Speedboat)",
+              aow_perk: "免費 GoPro 影片",
+            },
+            tabanka: {
+              name: "Tabanka Divers",
+              desc: "提供潛水與住宿整合安排，能省去後勤安排的麻煩。結合傳統螃蟹船和小艇接駁，提供舒適的接送服務。",
+              features: ["潛水與住宿設施整合", "使用小艇接駁，接送順暢", "AOW 課程免費附贈 Fun Dive"],
+              tags: ["住宿整合", "接送方便", "AOW優惠"],
+              card_desc: "潛宿整合・AOW 贈送潛水",
+              boat: "螃蟹船 + 小艇接駁",
+              aow_perk: "贈送潛水",
+            },
+          },
+          footer: { disclaimer: "免責聲明：所列價格和資訊可能會變動。請以各潛水中心的官方網站最新資訊為準。" },
+        },
+      };
+
+      const defaultLang = "zh-TW";
+      let currentLang = defaultLang;
+      let costChartInstance = null;
+
+      // Utility function to safely get nested object value
+      const getNestedValue = (obj, path) => {
+        return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+      };
+
+      function updateUI(lang) {
+        currentLang = lang;
+        const data = multilingualData[lang];
+
+        // Update Title (Head)
+        document.title = data.nav.title;
+
+        // Update all elements with data-key attribute
+        document.querySelectorAll("[data-key]").forEach((el) => {
+          const key = el.getAttribute("data-key");
+          const value = getNestedValue(data, key);
+
+          if (value !== undefined) {
+            if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+              el.value = value;
+            } else if (el.tagName === "BUTTON" && el.id.startsWith("btn-")) {
+              // Skip complex buttons, updated by specific key in place
+            } else if (el.tagName === "OPTION") {
+              // Skip options
+            } else {
+              // Use innerHTML to allow for <span> tags in strings like details.view_site
+              el.innerHTML = value.replace(/\n/g, "<br>"); // Handle newlines for pre-line
             }
-        };
-
-        const defaultLang = 'zh-TW';
-        let currentLang = defaultLang;
-        let costChartInstance = null;
-
-        // Utility function to safely get nested object value
-        const getNestedValue = (obj, path) => {
-            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-        };
-
-        function updateUI(lang) {
-            currentLang = lang;
-            const data = multilingualData[lang];
-            
-            // Update Title (Head)
-            document.title = data.nav.title;
-
-            // Update all elements with data-key attribute
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                const value = getNestedValue(data, key);
-                
-                if (value !== undefined) {
-                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.value = value;
-                    } else if (el.tagName === 'BUTTON' && el.id.startsWith('btn-')) {
-                        // Skip complex buttons, updated by specific key in place
-                    } else if (el.tagName === 'OPTION') {
-                        // Skip options
-                    } else {
-                        // Use innerHTML to allow for <span> tags in strings like details.view_site
-                        el.innerHTML = value.replace(/\n/g, '<br>'); // Handle newlines for pre-line
-                    }
-                }
-            });
-
-            // Update complex, non-data-key driven elements
-            
-            // Update Card Titles/Descriptions (These were hardcoded and need specific update)
-            const updateCardText = (shopKey, shopId) => {
-                const shopData = data.shop[shopKey];
-                document.querySelector(`#details .shop-card:nth-child(${shopId}) .shop-card-desc`).innerHTML = shopData.card_desc;
-                document.querySelector(`#details .shop-card:nth-child(${shopId}) .shop-boat`).innerHTML = shopData.boat;
-                document.querySelector(`#details .shop-card:nth-child(${shopId}) .shop-aow-perk`).innerHTML = shopData.aow_perk;
-            };
-            updateCardText('elDive', 1);
-            updateCardText('twoHundredBar', 2);
-            updateCardText('tabanka', 3);
-
-            // Re-render chart
-            if (costChartInstance) {
-                updateChart();
-            }
-            
-            // Re-check if any recommendation result is open and update it
-            const currentSelected = document.querySelector('.priority-btn.ring-sky-500');
-            if (currentSelected) {
-                const type = currentSelected.id.replace('btn-', '');
-                // Call selectPriority to re-render the result block with new language
-                selectPriority(type, false); 
-            }
-        }
-
-        function switchLanguage(lang) {
-            updateUI(lang);
-        }
-
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function selectPriority(type, highlight = true) {
-            const data = multilingualData[currentLang];
-
-            // 1. Handle Button Highlighting
-            if (highlight) {
-                document.querySelectorAll('.priority-btn').forEach(btn => {
-                    btn.classList.remove('ring-2', 'ring-offset-2', 'ring-sky-500', 'bg-slate-50');
-                });
-                const selectedBtn = document.getElementById(`btn-${type}`);
-                selectedBtn.classList.add('ring-2', 'ring-offset-2', 'ring-sky-500', 'bg-slate-50');
-            }
-
-            // 2. Determine Winner (Logic is independent of language)
-            let winnerKey = '';
-            if (type === 'language') {
-                winnerKey = 'elDive';
-            } else if (type === 'speed') {
-                winnerKey = 'twoHundredBar';
-            } else if (type === 'stay') {
-                winnerKey = 'tabanka';
-            }
-
-            const winner = data.shop[winnerKey];
-            
-            // 3. Update Result DOM
-            const resultDiv = document.getElementById('recommendation-result');
-            const resultTitle = document.getElementById('result-title');
-            const resultDesc = document.getElementById('result-desc');
-            const resultFeatures = document.getElementById('result-features');
-            const resultTags = document.getElementById('result-tags');
-            const resultLink = document.getElementById('result-link');
-
-            // Fade out if visible, then update and fade in
-            resultDiv.classList.remove('animate-fade-in');
-            
-            // Allow a tiny delay for visual reset
-            setTimeout(() => {
-                resultDiv.classList.remove('hidden');
-                
-                const titlePrefix = currentLang === 'ja' ? 'おすすめ: ' : '推薦: ';
-                resultTitle.textContent = `${titlePrefix} ${winner.name}`;
-                resultDesc.textContent = winner.desc;
-                resultLink.href = shopRawData[winnerKey].url;
-
-                // Features List
-                resultFeatures.innerHTML = winner.features.map(f => `<li class="flex items-start"><span class="text-sky-500 mr-2">✓</span> ${f}</li>`).join('');
-
-                // Tags
-                resultTags.innerHTML = winner.tags.map(t => `<span class="bg-slate-200 text-slate-700 px-2 py-1 rounded text-xs">${t}</span>`).join('');
-
-                // Add styling class specific to the winner for visual feedback
-                resultDiv.className = `bg-slate-50 rounded-xl p-6 border-l-4 animate-fade-in mt-6 shadow-sm`;
-                resultDiv.style.borderColor = shopRawData[winnerKey].borderColor;
-
-            }, 50);
-        }
-
-        function initChart() {
-            const ctx = document.getElementById('costChart').getContext('2d');
-            
-            costChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: [], // Will be set in updateChart
-                    datasets: [
-                        { label: shopRawData.elDive.name, data: [shopRawData.elDive.fun2, shopRawData.elDive.ow, shopRawData.elDive.aow], backgroundColor: shopRawData.elDive.color, borderColor: shopRawData.elDive.borderColor, borderWidth: 1 },
-                        { label: shopRawData.twoHundredBar.name, data: [shopRawData.twoHundredBar.fun2, shopRawData.twoHundredBar.ow, shopRawData.twoHundredBar.aow], backgroundColor: shopRawData.twoHundredBar.color, borderColor: shopRawData.twoHundredBar.borderColor, borderWidth: 1 },
-                        { label: shopRawData.tabanka.name, data: [shopRawData.tabanka.fun2, shopRawData.tabanka.ow, shopRawData.tabanka.aow], backgroundColor: shopRawData.tabanka.color, borderColor: shopRawData.tabanka.borderColor, borderWidth: 1 }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { family: "'Noto Sans TC', 'Noto Sans JP', sans-serif" } } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) { label += ': '; }
-                                    if (context.parsed.y !== null) {
-                                        label += new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(context.parsed.y);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: '價格 (PHP)', font: { family: "'Noto Sans TC', 'Noto Sans JP', sans-serif" } }
-                        }
-                    }
-                }
-            });
-            updateChart(); // Initial update with default language
-        }
-
-        function updateChart() {
-            if (!costChartInstance) return;
-            const data = multilingualData[currentLang];
-            
-            costChartInstance.data.labels = [
-                data.price_chart.label_fun2,
-                data.price_chart.label_ow,
-                data.price_chart.label_aow
-            ];
-            
-            // Update Y-axis title
-            costChartInstance.options.scales.y.title.text = data.price_chart.y_axis;
-            
-            costChartInstance.update();
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            initChart();
-            // Set initial language based on selector default (zh-TW)
-            const initialLang = document.getElementById('language-selector').value;
-            updateUI(initialLang);
+          }
         });
+
+        // Update complex, non-data-key driven elements
+
+        // Update Card Titles/Descriptions (These were hardcoded and need specific update)
+        const updateCardText = (shopKey, shopId) => {
+          const shopData = data.shop[shopKey];
+          document.querySelector(`#details .shop-card:nth-child(${shopId}) .shop-card-desc`).innerHTML = shopData.card_desc;
+          document.querySelector(`#details .shop-card:nth-child(${shopId}) .shop-boat`).innerHTML = shopData.boat;
+          document.querySelector(`#details .shop-card:nth-child(${shopId}) .shop-aow-perk`).innerHTML = shopData.aow_perk;
+        };
+        updateCardText("elDive", 1);
+        updateCardText("twoHundredBar", 2);
+        updateCardText("tabanka", 3);
+
+        // Re-render chart
+        if (costChartInstance) {
+          updateChart();
+        }
+
+        // Re-check if any recommendation result is open and update it
+        const currentSelected = document.querySelector(".priority-btn.ring-sky-500");
+        if (currentSelected) {
+          const type = currentSelected.id.replace("btn-", "");
+          // Call selectPriority to re-render the result block with new language
+          selectPriority(type, false);
+        }
+      }
+
+      function switchLanguage(lang) {
+        updateUI(lang);
+      }
+
+      function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+      }
+
+      function selectPriority(type, highlight = true) {
+        const data = multilingualData[currentLang];
+
+        // 1. Handle Button Highlighting
+        if (highlight) {
+          document.querySelectorAll(".priority-btn").forEach((btn) => {
+            btn.classList.remove("ring-2", "ring-offset-2", "ring-sky-500", "bg-slate-50");
+          });
+          const selectedBtn = document.getElementById(`btn-${type}`);
+          selectedBtn.classList.add("ring-2", "ring-offset-2", "ring-sky-500", "bg-slate-50");
+        }
+
+        // 2. Determine Winner (Logic is independent of language)
+        let winnerKey = "";
+        if (type === "language") {
+          winnerKey = "elDive";
+        } else if (type === "speed") {
+          winnerKey = "twoHundredBar";
+        } else if (type === "stay") {
+          winnerKey = "tabanka";
+        }
+
+        const winner = data.shop[winnerKey];
+
+        // 3. Update Result DOM
+        const resultDiv = document.getElementById("recommendation-result");
+        const resultTitle = document.getElementById("result-title");
+        const resultDesc = document.getElementById("result-desc");
+        const resultFeatures = document.getElementById("result-features");
+        const resultTags = document.getElementById("result-tags");
+        const resultLink = document.getElementById("result-link");
+
+        // Fade out if visible, then update and fade in
+        resultDiv.classList.remove("animate-fade-in");
+
+        // Allow a tiny delay for visual reset
+        setTimeout(() => {
+          resultDiv.classList.remove("hidden");
+
+          const titlePrefix = currentLang === "ja" ? "おすすめ: " : "推薦: ";
+          resultTitle.textContent = `${titlePrefix} ${winner.name}`;
+          resultDesc.textContent = winner.desc;
+          resultLink.href = shopRawData[winnerKey].url;
+
+          // Features List
+          resultFeatures.innerHTML = winner.features
+            .map((f) => `<li class="flex items-start"><span class="text-sky-500 mr-2">✓</span> ${f}</li>`)
+            .join("");
+
+          // Tags
+          resultTags.innerHTML = winner.tags
+            .map((t) => `<span class="bg-slate-200 text-slate-700 px-2 py-1 rounded text-xs">${t}</span>`)
+            .join("");
+
+          // Add styling class specific to the winner for visual feedback
+          resultDiv.className = `bg-slate-50 rounded-xl p-6 border-l-4 animate-fade-in mt-6 shadow-sm`;
+          resultDiv.style.borderColor = shopRawData[winnerKey].borderColor;
+        }, 50);
+      }
+
+      function initChart() {
+        const ctx = document.getElementById("costChart").getContext("2d");
+
+        costChartInstance = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [], // Will be set in updateChart
+            datasets: [
+              {
+                label: shopRawData.elDive.name,
+                data: [shopRawData.elDive.fun2, shopRawData.elDive.ow, shopRawData.elDive.aow],
+                backgroundColor: shopRawData.elDive.color,
+                borderColor: shopRawData.elDive.borderColor,
+                borderWidth: 1,
+              },
+              {
+                label: shopRawData.twoHundredBar.name,
+                data: [shopRawData.twoHundredBar.fun2, shopRawData.twoHundredBar.ow, shopRawData.twoHundredBar.aow],
+                backgroundColor: shopRawData.twoHundredBar.color,
+                borderColor: shopRawData.twoHundredBar.borderColor,
+                borderWidth: 1,
+              },
+              {
+                label: shopRawData.tabanka.name,
+                data: [shopRawData.tabanka.fun2, shopRawData.tabanka.ow, shopRawData.tabanka.aow],
+                backgroundColor: shopRawData.tabanka.color,
+                borderColor: shopRawData.tabanka.borderColor,
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "bottom", labels: { font: { family: "'Noto Sans TC', 'Noto Sans JP', sans-serif" } } },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    let label = context.dataset.label || "";
+                    if (label) {
+                      label += ": ";
+                    }
+                    if (context.parsed.y !== null) {
+                      label += new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(context.parsed.y);
+                    }
+                    return label;
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "價格 (PHP)", font: { family: "'Noto Sans TC', 'Noto Sans JP', sans-serif" } },
+              },
+            },
+          },
+        });
+        updateChart(); // Initial update with default language
+      }
+
+      function updateChart() {
+        if (!costChartInstance) return;
+        const data = multilingualData[currentLang];
+
+        costChartInstance.data.labels = [data.price_chart.label_fun2, data.price_chart.label_ow, data.price_chart.label_aow];
+
+        // Update Y-axis title
+        costChartInstance.options.scales.y.title.text = data.price_chart.y_axis;
+
+        costChartInstance.update();
+      }
+
+      function detectAndSetLanguage() {
+        // 1. Get browser preferred languages
+        const browserLangs = navigator.languages || [navigator.language || navigator.userLanguage];
+
+        let detectedLang = defaultLang;
+
+        // 2. Check for supported language codes
+        for (const browserLang of browserLangs) {
+          const standardizedLang = browserLang.toLowerCase();
+
+          // Check full match (e.g., 'zh-tw')
+          if (multilingualData[standardizedLang]) {
+            detectedLang = standardizedLang;
+            break;
+          }
+
+          // Check base match and map to supported variants
+          const baseLang = standardizedLang.split("-")[0];
+          if (baseLang === "ja" && multilingualData["ja"]) {
+            detectedLang = "ja";
+            break;
+          }
+          // Check for Chinese base language and prioritize zh-TW if supported
+          if (baseLang === "zh" && multilingualData["zh-TW"]) {
+            detectedLang = "zh-TW";
+            break;
+          }
+        }
+
+        // 3. Set the selector and update UI
+        const selector = document.getElementById("language-selector");
+        if (selector) {
+          selector.value = detectedLang;
+        }
+        // Use the detected language to initialize the UI
+        updateUI(detectedLang);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        initChart();
+        detectAndSetLanguage(); // Automatically set language based on browser preference
+      });
     </script>
 
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-        .animate-fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
     </style>
-</body>
+  </body>
 </html>
