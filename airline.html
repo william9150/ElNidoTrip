@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>愛妮島 (ENI) 團體自由行航班規劃器 V2.2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
+      body {
+        font-family: "Noto Sans TC", sans-serif;
+        background-color: #f0f4f8;
+      }
+      .card {
+        transition: all 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .tab-btn {
+        transition: all 0.2s;
+        border-bottom: 3px solid transparent;
+      }
+      .tab-btn.active {
+        border-color: #0d9488;
+        color: #0f766e;
+        background-color: #f0fdfa;
+      }
+      optgroup {
+        font-weight: bold;
+        color: #475569;
+      }
+    </style>
+  </head>
+  <body class="text-slate-800 pb-20">
+    <!-- Navigation / Header -->
+    <nav class="bg-white shadow-sm border-b border-slate-100 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <!-- Logo/Brand -->
+          <div class="flex items-center">
+            <span class="text-xl md:text-2xl font-bold text-sky-600" data-key="nav.brand">2026El Nido</span>
+          </div>
+
+          <!-- Center Navigation Links - Desktop -->
+          <div class="hidden md:flex items-center space-x-6">
+            <a
+              href="index.html"
+              class="text-slate-600 hover:text-sky-600 font-medium border-b-2 border-transparent hover:border-sky-300 pb-1 transition-colors text-dynamic"
+              data-key="nav.home"
+            >
+              首頁
+            </a>
+            <a
+              href="airline.html"
+              class="text-slate-900 hover:text-sky-600 font-medium border-b-2 border-sky-600 pb-1 transition-colors text-dynamic"
+              data-key="nav.airline"
+            >
+              航班規劃
+            </a>
+          </div>
+
+          <!-- Right Side: Language Selector + Mobile Menu -->
+          <div class="flex items-center space-x-3">
+            <!-- Language Toggle -->
+            <div class="relative inline-block text-left">
+              <select
+                id="language-selector"
+                onchange="switchLanguage(this.value)"
+                class="bg-white border border-slate-300 rounded-md shadow-sm pl-3 pr-8 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 cursor-pointer"
+              >
+                <option value="zh-TW">🇹🇼 繁中</option>
+                <option value="ja">🇯🇵 日本語</option>
+              </select>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button
+              id="mobile-menu-btn"
+              onclick="toggleMobileMenu()"
+              class="md:hidden p-2 rounded-md text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition-colors"
+              aria-label="Menu"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden pb-4 pt-2 space-y-2">
+          <a
+            href="index.html"
+            class="block px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md font-medium text-dynamic"
+            data-key="nav.home"
+          >
+            首頁
+          </a>
+          <a
+            href="airline.html"
+            class="block px-4 py-2 text-slate-900 bg-sky-50 rounded-md font-medium text-dynamic"
+            data-key="nav.airline"
+          >
+            航班規劃
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto p-4 md:p-8">
+      <!-- Header -->
+      <header class="text-center mb-8 mt-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2" data-key="page.title">🌴 愛妮島 (ENI) 航班規劃器</h1>
+        <p class="text-slate-500" data-key="page.subtitle">2026/5/21 出發 ➜ 5/24 或 5/25 回程</p>
+      </header>
+
+      <!-- OUTBOUND SECTION -->
+      <section class="mb-10 relative">
+        <div class="absolute -left-4 top-0 bottom-0 w-1 bg-blue-500 rounded-full hidden md:block"></div>
+        <div class="flex items-center mb-6">
+          <div class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3 shadow-lg">1</div>
+          <h2 class="text-2xl font-bold text-slate-700" data-key="outbound.title">去程：2026/5/21 (週四)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <!-- TPE Flight -->
+          <div class="md:col-span-4 card bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+            <label class="block text-sm font-semibold text-slate-500 mb-2" data-key="outbound.tpe_label">🇹🇼 TPE 抵達 MNL</label>
+            <select
+              id="out_tpe"
+              class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3"
+            >
+              <option value="" disabled selected>選擇航班...</option>
+              <option value="265" data-arr="265">Z2 129 (04:25 抵達)</option>
+              <option value="280" data-arr="280">5J 311 (04:40 抵達)</option>
+              <option value="590" data-arr="590">JX 785 (09:50 抵達)</option>
+              <option value="575" data-arr="575">CI 701 (09:35 抵達) ★推薦</option>
+            </select>
+            <div id="res_out_tpe" class="mt-3 hidden text-sm"></div>
+          </div>
+
+          <!-- NRT Flight -->
+          <div class="md:col-span-4 card bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+            <label class="block text-sm font-semibold text-slate-500 mb-2" data-key="outbound.nrt_label">🇯🇵 NRT 抵達 MNL</label>
+            <select
+              id="out_nrt"
+              class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3"
+            >
+              <option value="" disabled selected>選擇航班...</option>
+              <option value="1415" data-day="-1">5J 5057 (前晚 23:35 抵達)</option>
+              <option value="1420" data-day="-1">GK 41 (前晚 23:40 抵達)</option>
+              <option value="785" data-day="0">PR 431 (當日 13:05 抵達) ⚠️</option>
+            </select>
+            <div id="res_out_nrt" class="mt-3 hidden text-sm"></div>
+          </div>
+
+          <!-- Shared AirSWIFT -->
+          <div class="md:col-span-4 card bg-blue-50 p-5 rounded-xl shadow-md border border-blue-200 ring-2 ring-blue-100 relative">
+            <div class="absolute -top-3 -right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm" data-key="outbound.meeting_point">會合點</div>
+            <label class="block text-sm font-bold text-blue-800 mb-2" data-key="outbound.eni_label">🇵🇭 MNL -> ENI (共同搭乘)</label>
+            <select
+              id="out_eni"
+              class="w-full bg-white border border-blue-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3"
+            >
+              <option value="" disabled selected>選擇 AirSWIFT...</option>
+              <option value="285">T6 110 (04:45 起飛)</option>
+              <option value="315">T6 112 (05:15 起飛)</option>
+              <option value="355">T6 114 (05:55 起飛)</option>
+              <option value="600">T6 126 (10:00 起飛)</option>
+              <option value="660">T6 148 (11:00 起飛)</option>
+              <option value="840">T6 142 (14:00 起飛) ★推薦</option>
+              <option value="1080">T6 172 (18:00 起飛)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- INBOUND SECTION -->
+      <section class="mb-12 relative">
+        <div class="absolute -left-4 top-0 bottom-0 w-1 bg-teal-500 rounded-full hidden md:block"></div>
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+          <div class="flex items-center mb-4 md:mb-0">
+            <div class="bg-teal-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3 shadow-lg">2</div>
+            <div>
+              <span class="text-sm font-bold text-slate-500 mr-2" data-key="inbound.title_prefix">ENI 出發日期：</span>
+              <div class="bg-slate-200 p-1 rounded-lg inline-flex">
+                <button
+                  onclick="setReturnDate('24')"
+                  id="btn-24"
+                  class="tab-btn px-4 py-2 rounded-md font-medium text-slate-600 hover:bg-white text-sm"
+                  data-key="inbound.date_24"
+                >
+                  5/24 (週日)
+                </button>
+                <button
+                  onclick="setReturnDate('25')"
+                  id="btn-25"
+                  class="tab-btn active px-4 py-2 rounded-md font-medium text-slate-600 hover:bg-white text-sm shadow-sm"
+                  data-key="inbound.date_25"
+                >
+                  5/25 (週一)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dive Safety Reminder (Gentle Version) -->
+        <div id="dive-warning" class="hidden mb-6 bg-sky-50 border-l-4 border-sky-400 p-4 rounded-r-lg shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-start">
+            <div class="flex items-center mb-2 sm:mb-0 mt-1">
+              <span class="text-2xl mr-3">🤿</span>
+              <span class="font-bold text-sky-800 text-lg mr-2 whitespace-nowrap" data-key="dive.title">潛水員溫馨提醒</span>
+            </div>
+            <div id="dive-msg" class="text-sky-700 text-sm font-medium w-full">
+              <!-- Dynamic Content Here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <!-- Shared AirSWIFT Inbound -->
+          <div class="md:col-span-4 card bg-teal-50 p-5 rounded-xl shadow-md border border-teal-200 ring-2 ring-teal-100 relative">
+            <div class="absolute -top-3 -left-3 bg-teal-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm" data-key="inbound.departure_point">出發點</div>
+            <label class="block text-sm font-bold text-teal-800 mb-2" data-key="inbound.eni_label">🇵🇭 ENI -> MNL (共同搭乘)</label>
+            <select
+              id="in_eni"
+              class="w-full bg-white border border-teal-300 text-slate-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-3"
+            >
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <!-- TPE Flight Inbound -->
+          <div class="md:col-span-4 card bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+            <label class="block text-sm font-semibold text-slate-500 mb-2" data-key="inbound.tpe_label">🇹🇼 MNL 起飛往 TPE</label>
+            <select
+              id="in_tpe"
+              class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3"
+            >
+              <!-- Populated by JS -->
+            </select>
+            <div id="res_in_tpe" class="mt-3 hidden text-sm"></div>
+          </div>
+
+          <!-- NRT Flight Inbound -->
+          <div class="md:col-span-4 card bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+            <label class="block text-sm font-semibold text-slate-500 mb-2" data-key="inbound.nrt_label">🇯🇵 MNL 起飛往 NRT</label>
+            <select
+              id="in_nrt"
+              class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3"
+            >
+              <!-- Populated by JS -->
+            </select>
+            <div id="res_in_nrt" class="mt-3 hidden text-sm"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary Recommendation -->
+      <div
+        id="recommendation"
+        class="bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl p-6 text-white shadow-xl hidden transform transition-all duration-500"
+      >
+        <h3 class="text-lg font-bold mb-3 border-b border-slate-600 pb-2" data-key="recommendation.title">✨ 行程分析與建議</h3>
+        <div id="rec-content" class="text-slate-300 text-sm leading-relaxed space-y-2"></div>
+      </div>
+    </div>
+
+    <script>
+      // --- DATA ---
+
+      const eniInboundFlights = [
+        { val: 550, dep: 460, label: "T6 113 (07:40 起飛 | 09:10 抵達)", days: ["24", "25"] },
+        { val: 600, dep: 510, label: "T6 111 (08:30 起飛 | 10:00 抵達)", days: ["24", "25"] },
+        { val: 805, dep: 715, label: "T6 127 (11:55 起飛 | 13:25 抵達)", days: ["24", "25"] },
+        { val: 1040, dep: 950, label: "T6 143 (15:50 起飛 | 17:20 抵達)", days: ["24", "25"] },
+        { val: 1145, dep: 1055, label: "T6 149 (17:35 起飛 | 19:05 抵達)", days: ["24", "25"] },
+        { val: 1175, dep: 1085, label: "T6 147 (18:05 起飛 | 19:35 抵達)", days: ["24", "25"] },
+        { val: 1305, dep: 1215, label: "T6 173 (20:15 起飛 | 21:45 抵達)", days: ["24", "25"] },
+      ];
+
+      const tpeInboundFlights = [
+        { val: 345, label: "BR 262 (05:45 起飛)", days: ["24", "25"] },
+        { val: 390, label: "PR 890 (06:30 起飛)", days: ["24", "25"] },
+        { val: 410, label: "5J 312 (06:50 起飛)", days: ["24", "25"] },
+        { val: 465, label: "Z2 124 (07:45 起飛)", days: ["24", "25"] },
+        { val: 635, label: "CI 702 (10:35 起飛)", days: ["24", "25"] },
+        { val: 645, label: "JX 786 (10:45 起飛)", days: ["24", "25"] },
+        { val: 755, label: "PR 896 (12:35 起飛)", days: ["24", "25"] },
+        { val: 760, label: "BR 272 (12:40 起飛)", days: ["24", "25"] },
+        { val: 1010, label: "CI 704 (16:50 起飛)", days: ["24", "25"] },
+        { val: 1130, label: "BR 278 (18:50 起飛)", days: ["24", "25"] },
+        { val: 1395, label: "Z2 128 (23:15 起飛)", days: ["24", "25"] },
+      ];
+
+      const nrtInboundFlights = [
+        { val: 40, label: "GK 40 (00:40 起飛)", days: ["24", "25"] },
+        { val: 275, label: "Z2 190 (04:35 起飛)", days: ["24", "25"] },
+        { val: 370, label: "5J 5054 (06:10 起飛)", days: ["24", "25"] },
+        { val: 450, label: "PR 428 (07:30 起飛)", days: ["24", "25"] },
+        { val: 550, label: "NH 820 (09:10 起飛)", days: ["24", "25"] },
+        { val: 605, label: "JL 746 (10:05 起飛)", days: ["24", "25"] },
+        { val: 750, label: "5J 5056 (12:30 起飛)", days: ["24", "25"] },
+        { val: 800, label: "Z2 192 (13:20 起飛)", days: ["24", "25"] },
+        { val: 890, label: "PR 432 (14:50 起飛)", days: ["24", "25"] },
+      ];
+
+      let currentReturnDate = "25";
+
+      // --- FUNCTIONS ---
+
+      function populateSelect(id, data, date, isExtended) {
+        const select = document.getElementById(id);
+        const currentVal = select.value;
+        const langData = multilingualData[currentLang];
+        select.innerHTML = `<option value="" disabled selected>${langData.status.select_flight}</option>`;
+
+        // If isExtended (for MNL outbound), we show Date and Next Date
+        const targetDates = [date];
+        if (isExtended && date === "24") {
+          targetDates.push("25");
+        }
+
+        // Create groups if extended
+        targetDates.forEach((d) => {
+          let groupLabel = `5/${d} 出發`;
+          // If it's a simple list (no groups needed if only 1 date), strictly speaking optgroup is nicer but simple list works too.
+          // To keep calculation logic simple, we flatten the list but add visual prefix.
+
+          // Sort by time
+          const dayData = data.filter((item) => item.days === "all" || item.days.includes(d)).sort((a, b) => a.val - b.val);
+
+          if (dayData.length > 0) {
+            // Add separator/header if multiple days
+            if (targetDates.length > 1) {
+              const group = document.createElement("optgroup");
+              group.label = groupLabel;
+              select.appendChild(group);
+            }
+
+            dayData.forEach((item) => {
+              const opt = document.createElement("option");
+              opt.value = item.val;
+              opt.setAttribute("data-date", d);
+              if (item.dep) opt.setAttribute("data-dep", item.dep);
+
+              // Add date prefix for clarity if extended
+              const prefix = targetDates.length > 1 ? `[5/${d}] ` : ``;
+              opt.textContent = prefix + item.label;
+
+              if (targetDates.length > 1) {
+                select.lastChild.appendChild(opt); // Append to optgroup
+              } else {
+                select.appendChild(opt);
+              }
+            });
+          }
+        });
+
+        // Try to keep selection if valid (and date matches)
+        // Reset if date changes drastically, but logic handles it
+      }
+
+      function setReturnDate(date) {
+        currentReturnDate = date;
+
+        // UI Toggle
+        document.querySelectorAll(".tab-btn").forEach((b) => {
+          b.classList.remove("active", "bg-white", "shadow-sm", "text-teal-700", "bg-teal-50");
+          if (b.id === `btn-${date}`) {
+            b.classList.add("active");
+          }
+        });
+
+        // Repopulate Selects
+        // ENI -> MNL: Strict (only selected date)
+        populateSelect("in_eni", eniInboundFlights, date, false);
+        // MNL -> Home: Extended (allow next day if 24th)
+        populateSelect("in_tpe", tpeInboundFlights, date, true);
+        populateSelect("in_nrt", nrtInboundFlights, date, true);
+
+        calculate();
+      }
+
+      function updateDiveWarning(eniSelect) {
+        const warningBox = document.getElementById("dive-warning");
+        const msgBox = document.getElementById("dive-msg");
+
+        if (!eniSelect.value) {
+          warningBox.classList.add("hidden");
+          return;
+        }
+
+        const selectedOption = eniSelect.options[eniSelect.selectedIndex];
+        // Handle optgroup case
+        const depMins = parseInt(selectedOption.getAttribute("data-dep"));
+
+        if (isNaN(depMins)) return;
+
+        // Dates logic
+        const dateMinus1 = currentReturnDate === "25" ? "24" : "23"; // Day X-1
+        const dateCurrent = currentReturnDate; // Day X
+
+        // 1. Calculate 24h Safe Time (Day X-1 same time)
+        const h24 = Math.floor(depMins / 60);
+        const m24 = depMins % 60;
+        const timeStr24 = `${h24.toString().padStart(2, "0")}:${m24.toString().padStart(2, "0")}`;
+
+        // 2. Calculate 18h Minimum Time (Day X-1 same time + 6 hours)
+        // 18 hours before flight = (Flight Time - 24h) + 6h
+        let mins18 = depMins + 360;
+        let date18 = dateMinus1;
+
+        // Handle rollover to next day (if flight is late evening, 18h before might be early morning of flight day)
+        if (mins18 >= 1440) {
+          mins18 -= 1440;
+          date18 = dateCurrent;
+        }
+
+        const h18 = Math.floor(mins18 / 60);
+        const m18 = mins18 % 60;
+        const timeStr18 = `${h18.toString().padStart(2, "0")}:${m18.toString().padStart(2, "0")}`;
+
+        const data = multilingualData[currentLang];
+        let htmlContent = `
+                <div class="flex flex-col gap-2">
+                    <div class="text-slate-600">${data.dive.desc}</div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="bg-blue-100 text-blue-900 px-3 py-2 rounded-md border border-blue-200">
+                            <span class="text-xs uppercase font-bold tracking-wider opacity-70 block">${data.dive.label_24h}</span>
+                            <span class="font-bold text-lg">5/${dateMinus1} ${timeStr24}</span>
+                        </div>
+                        <div class="bg-orange-100 text-orange-900 px-3 py-2 rounded-md border border-orange-200">
+                            <span class="text-xs uppercase font-bold tracking-wider opacity-70 block">${data.dive.label_18h}</span>
+                            <span class="font-bold text-lg">5/${date18} ${timeStr18}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        msgBox.innerHTML = htmlContent;
+        warningBox.classList.remove("hidden");
+      }
+
+      function updateStatus(elementId, gapMinutes, type) {
+        const el = document.getElementById(elementId);
+        el.classList.remove("hidden");
+
+        const data = multilingualData[currentLang];
+        let colorClass, icon, message;
+        const hours = Math.floor(gapMinutes / 60);
+        const mins = gapMinutes % 60;
+        const timeStr = `${hours}h${mins}m`;
+
+        if (gapMinutes < 0) {
+          colorClass = "text-red-500 font-bold";
+          icon = "🚫";
+          message = data.status.impossible;
+        } else if (gapMinutes < 150) {
+          // < 2.5h
+          colorClass = "text-red-600 font-bold";
+          icon = "⚡";
+          message = `${data.status.dangerous.replace('僅', timeStr).replace('のみ', timeStr)}`;
+        } else if (gapMinutes < 240) {
+          // < 4h
+          colorClass = "text-orange-600 font-bold";
+          icon = "✋";
+          message = `${timeStr} ${data.status.tight}`;
+        } else if (gapMinutes > 600) {
+          // > 10h
+          colorClass = "text-blue-600 font-bold";
+          icon = "🔵";
+          message = `${timeStr} ${data.status.overnight}`;
+        } else {
+          colorClass = "text-emerald-600 font-bold";
+          icon = "✨";
+          message = `${timeStr} ${data.status.perfect}`;
+        }
+
+        el.innerHTML = `<span class="mr-1">${icon}</span> <span class="${colorClass}">${message}</span>`;
+        return gapMinutes;
+      }
+
+      function calculate() {
+        // OUTBOUND
+        const outTpe = document.getElementById("out_tpe").value;
+        const outNrt = document.getElementById("out_nrt").value;
+        const outEni = document.getElementById("out_eni").value;
+
+        if (outTpe && outEni) {
+          const gap = parseInt(outEni) - parseInt(outTpe);
+          updateStatus("res_out_tpe", gap, "outbound");
+        }
+
+        if (outNrt && outEni) {
+          const sel = document.getElementById("out_nrt");
+          const isPrevDay = sel.options[sel.selectedIndex].getAttribute("data-day") === "-1";
+          let gap;
+          if (isPrevDay) {
+            gap = 1440 - parseInt(outNrt) + parseInt(outEni);
+          } else {
+            gap = parseInt(outEni) - parseInt(outNrt);
+          }
+          updateStatus("res_out_nrt", gap, "outbound");
+        }
+
+        // INBOUND
+        const inEniSelect = document.getElementById("in_eni");
+        const inEni = inEniSelect.value;
+        const inTpeSel = document.getElementById("in_tpe");
+        const inNrtSel = document.getElementById("in_nrt");
+
+        const inTpe = inTpeSel.value;
+        const inNrt = inNrtSel.value;
+
+        // Update Dive Warning
+        updateDiveWarning(inEniSelect);
+
+        // Calc Gap with Date Awareness
+        if (inEni && inTpe) {
+          const eniDate = currentReturnDate;
+          const tpeDate = inTpeSel.options[inTpeSel.selectedIndex].getAttribute("data-date");
+
+          let gapTpe;
+          if (eniDate === tpeDate) {
+            gapTpe = parseInt(inTpe) - parseInt(inEni);
+          } else {
+            // Assume Next Day
+            gapTpe = 1440 - parseInt(inEni) + parseInt(inTpe);
+          }
+          updateStatus("res_in_tpe", gapTpe, "inbound");
+        }
+
+        if (inEni && inNrt) {
+          const eniDate = currentReturnDate;
+          const nrtDate = inNrtSel.options[inNrtSel.selectedIndex].getAttribute("data-date");
+
+          let gapNrt;
+          if (eniDate === nrtDate) {
+            gapNrt = parseInt(inNrt) - parseInt(inEni);
+          } else {
+            gapNrt = 1440 - parseInt(inEni) + parseInt(inNrt);
+          }
+          updateStatus("res_in_nrt", gapNrt, "inbound");
+        }
+
+        // RECOMMENDATION LOGIC
+        const recBox = document.getElementById("recommendation");
+        const recContent = document.getElementById("rec-content");
+
+        if (inEni) {
+          recBox.classList.remove("hidden");
+          let recText = "";
+          const data = multilingualData[currentLang];
+
+          recText += `<p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">${data.recommendation.return_date}${currentReturnDate}</p>`;
+
+          recContent.innerHTML = recText;
+        }
+      }
+
+      // --- MULTI-LANGUAGE SYSTEM ---
+
+      const multilingualData = {
+        ja: {
+          nav: {
+            brand: "2026El Nido",
+            home: "ホーム",
+            airline: "フライト予約",
+            title: "エルニド (ENI) フライトプランナー"
+          },
+          page: {
+            title: "🌴 エルニド (ENI) フライトプランナー",
+            subtitle: "2026/5/21 出発 ➜ 5/24 または 5/25 帰国"
+          },
+          outbound: {
+            title: "往路：2026/5/21 (木曜日)",
+            tpe_label: "🇹🇼 TPE 経由 MNL 到着",
+            nrt_label: "🇯🇵 NRT 経由 MNL 到着",
+            meeting_point: "集合地点",
+            eni_label: "🇵🇭 MNL -> ENI (共同搭乗)"
+          },
+          inbound: {
+            title_prefix: "ENI 出発日：",
+            date_24: "5/24 (日曜)",
+            date_25: "5/25 (月曜)",
+            departure_point: "出発地点",
+            eni_label: "🇵🇭 ENI -> MNL (共同搭乗)",
+            tpe_label: "🇹🇼 MNL 発 TPE 行き",
+            nrt_label: "🇯🇵 MNL 発 NRT 行き"
+          },
+          dive: {
+            title: "ダイバーへのお知らせ",
+            desc: "このフライトをご利用の場合、推奨される最終ダイブ終了時間：",
+            label_24h: "24時間前 (推奨)",
+            label_18h: "18時間前 (最低)"
+          },
+          status: {
+            impossible: "接続不可 (フライト出発済み)",
+            dangerous: "のみ (極めて危険)",
+            tight: "残り (やや急ぎ)",
+            overnight: "乗り継ぎ (宿泊必要)",
+            perfect: "残り (完璧)",
+            select_flight: "フライトを選択..."
+          },
+          recommendation: {
+            title: "✨ 旅程分析と提案",
+            return_date: "帰国日：5/"
+          }
+        },
+        "zh-TW": {
+          nav: {
+            brand: "2026El Nido",
+            home: "首頁",
+            airline: "航班規劃",
+            title: "愛妮島 (ENI) 航班規劃器"
+          },
+          page: {
+            title: "🌴 愛妮島 (ENI) 航班規劃器",
+            subtitle: "2026/5/21 出發 ➜ 5/24 或 5/25 回程"
+          },
+          outbound: {
+            title: "去程：2026/5/21 (週四)",
+            tpe_label: "🇹🇼 TPE 抵達 MNL",
+            nrt_label: "🇯🇵 NRT 抵達 MNL",
+            meeting_point: "會合點",
+            eni_label: "🇵🇭 MNL -> ENI (共同搭乘)"
+          },
+          inbound: {
+            title_prefix: "ENI 出發日期：",
+            date_24: "5/24 (週日)",
+            date_25: "5/25 (週一)",
+            departure_point: "出發點",
+            eni_label: "🇵🇭 ENI -> MNL (共同搭乘)",
+            tpe_label: "🇹🇼 MNL 起飛往 TPE",
+            nrt_label: "🇯🇵 MNL 起飛往 NRT"
+          },
+          dive: {
+            title: "潛水員溫馨提醒",
+            desc: "搭乘此班機，建議最後一次潛水結束時間：",
+            label_24h: "24小時前 (推薦)",
+            label_18h: "18小時前 (最低)"
+          },
+          status: {
+            impossible: "無法銜接 (班機已飛走)",
+            dangerous: "僅 (極危險)",
+            tight: "剩 (稍趕)",
+            overnight: "轉機 (需過夜)",
+            perfect: "剩 (完美)",
+            select_flight: "選擇航班..."
+          },
+          recommendation: {
+            title: "✨ 行程分析與建議",
+            return_date: "回程日期：5/"
+          }
+        }
+      };
+
+      const defaultLang = "zh-TW";
+      let currentLang = defaultLang;
+
+      const getNestedValue = (obj, path) => {
+        return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+      };
+
+      function updateUI(lang) {
+        currentLang = lang;
+        const data = multilingualData[lang];
+
+        // Update Title
+        document.title = data.nav.title;
+
+        // Update all elements with data-key attribute
+        document.querySelectorAll("[data-key]").forEach((el) => {
+          const key = el.getAttribute("data-key");
+          const value = getNestedValue(data, key);
+
+          if (value !== undefined) {
+            if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+              el.value = value;
+            } else {
+              el.innerHTML = value.replace(/\n/g, "<br>");
+            }
+          }
+        });
+      }
+
+      function switchLanguage(lang) {
+        updateUI(lang);
+        saveLanguagePreference(lang);
+      }
+
+      function saveLanguagePreference(lang) {
+        localStorage.setItem('preferred-language', lang);
+      }
+
+      function loadLanguagePreference() {
+        const savedLang = localStorage.getItem('preferred-language');
+        return savedLang || defaultLang;
+      }
+
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+      }
+
+      function detectAndSetLanguage() {
+        let detectedLang = defaultLang;
+
+        // Check localStorage first
+        const savedLang = loadLanguagePreference();
+        if (savedLang && multilingualData[savedLang]) {
+          detectedLang = savedLang;
+        } else {
+          // Fall back to browser language
+          const browserLangs = navigator.languages || [navigator.language || navigator.userLanguage];
+
+          for (const browserLang of browserLangs) {
+            const standardizedLang = browserLang.toLowerCase();
+
+            if (multilingualData[standardizedLang]) {
+              detectedLang = standardizedLang;
+              break;
+            }
+
+            const baseLang = standardizedLang.split("-")[0];
+            if (baseLang === "ja" && multilingualData["ja"]) {
+              detectedLang = "ja";
+              break;
+            }
+            if (baseLang === "zh" && multilingualData["zh-TW"]) {
+              detectedLang = "zh-TW";
+              break;
+            }
+          }
+        }
+
+        // Set the selector and update UI
+        const selector = document.getElementById("language-selector");
+        if (selector) {
+          selector.value = detectedLang;
+        }
+        updateUI(detectedLang);
+      }
+
+      // INIT
+      detectAndSetLanguage();
+      setReturnDate("25"); // Default
+      document.querySelectorAll("select").forEach((el) => el.addEventListener("change", calculate));
+    </script>
+  </body>
+</html>
