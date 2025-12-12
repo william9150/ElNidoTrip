@@ -192,7 +192,7 @@
                 <button
                   onclick="setReturnDate('24')"
                   id="btn-24"
-                  class="tab-btn px-4 py-2 rounded-md font-medium text-slate-600 hover:bg-white text-sm"
+                  class="tab-btn active px-4 py-2 rounded-md font-medium text-slate-600 hover:bg-white text-sm shadow-sm"
                   data-key="inbound.date_24"
                 >
                   5/24 (週日)
@@ -200,7 +200,7 @@
                 <button
                   onclick="setReturnDate('25')"
                   id="btn-25"
-                  class="tab-btn active px-4 py-2 rounded-md font-medium text-slate-600 hover:bg-white text-sm shadow-sm"
+                  class="tab-btn px-4 py-2 rounded-md font-medium text-slate-600 hover:bg-white text-sm"
                   data-key="inbound.date_25"
                 >
                   5/25 (週一)
@@ -288,66 +288,66 @@
       let nrtOutboundFlights = [];
       let eniOutboundFlights = [];
 
-      let currentReturnDate = "25";
+      let currentReturnDate = "24";
 
       // Helper function to convert time string (HH:MM) to minutes since midnight
       function timeToMinutes(timeStr) {
-        const [hours, minutes] = timeStr.split(':').map(Number);
+        const [hours, minutes] = timeStr.split(":").map(Number);
         return hours * 60 + minutes;
       }
 
       // Load flight data from JSON
       async function loadFlightData() {
         try {
-          const response = await fetch('FlightData.json');
+          const response = await fetch("FlightData.json");
           flightData = await response.json();
           processFlightData();
           initializeUI();
         } catch (error) {
-          console.error('Error loading flight data:', error);
+          console.error("Error loading flight data:", error);
         }
       }
 
       // Process JSON data into the format needed by the app
       function processFlightData() {
         // TPE -> MNL (Outbound: 2026/5/21)
-        if (flightData['TPE-MNL'] && flightData['TPE-MNL']['2026/5/21']) {
-          tpeOutboundFlights = flightData['TPE-MNL']['2026/5/21'].map(flight => ({
+        if (flightData["TPE-MNL"] && flightData["TPE-MNL"]["2026/5/21"]) {
+          tpeOutboundFlights = flightData["TPE-MNL"]["2026/5/21"].map((flight) => ({
             val: timeToMinutes(flight.arrival_time),
             label: `${flight.flight_number} | ${flight.departure_time}-${flight.arrival_time}`,
-            days: ['21']
+            days: ["21"],
           }));
         }
 
         // NRT -> MNL (Outbound: 2026/5/20 - arrives 5/21)
-        if (flightData['NRT-MNL'] && flightData['NRT-MNL']['2026/5/20']) {
-          nrtOutboundFlights = flightData['NRT-MNL']['2026/5/20'].map(flight => ({
+        if (flightData["NRT-MNL"] && flightData["NRT-MNL"]["2026/5/20"]) {
+          nrtOutboundFlights = flightData["NRT-MNL"]["2026/5/20"].map((flight) => ({
             val: timeToMinutes(flight.arrival_time),
             label: `${flight.flight_number} | ${flight.departure_time}-${flight.arrival_time}`,
-            days: ['-1'] // Previous day
+            days: ["-1"], // Previous day
           }));
         }
 
         // MNL -> ENI (Outbound: 2026/5/21)
-        if (flightData['MNL-ENI'] && flightData['MNL-ENI']['2026/5/21']) {
-          eniOutboundFlights = flightData['MNL-ENI']['2026/5/21'].map(flight => ({
+        if (flightData["MNL-ENI"] && flightData["MNL-ENI"]["2026/5/21"]) {
+          eniOutboundFlights = flightData["MNL-ENI"]["2026/5/21"].map((flight) => ({
             val: timeToMinutes(flight.departure_time),
             label: `${flight.flight_number} | ${flight.departure_time}-${flight.arrival_time}`,
-            days: ['21']
+            days: ["21"],
           }));
         }
 
         // ENI -> MNL (Inbound: 5/24 and 5/25)
-        if (flightData['ENI-MNL']) {
-          const dates = ['2026/5/24', '2026/5/25'];
+        if (flightData["ENI-MNL"]) {
+          const dates = ["2026/5/24", "2026/5/25"];
           dates.forEach((date, idx) => {
-            if (flightData['ENI-MNL'][date]) {
-              flightData['ENI-MNL'][date].forEach(flight => {
+            if (flightData["ENI-MNL"][date]) {
+              flightData["ENI-MNL"][date].forEach((flight) => {
                 eniInboundFlights.push({
                   val: timeToMinutes(flight.arrival_time),
                   dep: timeToMinutes(flight.departure_time),
                   label: `${flight.flight_number} | ${flight.departure_time}-${flight.arrival_time}`,
-                  days: [idx === 0 ? '24' : '25']
+                  days: [idx === 0 ? "24" : "25"],
                 });
               });
             }
@@ -355,15 +355,15 @@
         }
 
         // MNL -> TPE (Inbound: 5/24 and 5/25)
-        if (flightData['MNL-TPE']) {
-          const dates = ['2026/5/24', '2026/5/25'];
+        if (flightData["MNL-TPE"]) {
+          const dates = ["2026/5/24", "2026/5/25"];
           dates.forEach((date, idx) => {
-            if (flightData['MNL-TPE'][date]) {
-              flightData['MNL-TPE'][date].forEach(flight => {
+            if (flightData["MNL-TPE"][date]) {
+              flightData["MNL-TPE"][date].forEach((flight) => {
                 tpeInboundFlights.push({
                   val: timeToMinutes(flight.departure_time),
                   label: `${flight.flight_number} | ${flight.departure_time}-${flight.arrival_time}`,
-                  days: [idx === 0 ? '24' : '25']
+                  days: [idx === 0 ? "24" : "25"],
                 });
               });
             }
@@ -371,15 +371,15 @@
         }
 
         // MNL -> NRT (Inbound: 5/24 and 5/25)
-        if (flightData['MNL-NRT']) {
-          const dates = ['2026/5/24', '2026/5/25'];
+        if (flightData["MNL-NRT"]) {
+          const dates = ["2026/5/24", "2026/5/25"];
           dates.forEach((date, idx) => {
-            if (flightData['MNL-NRT'][date]) {
-              flightData['MNL-NRT'][date].forEach(flight => {
+            if (flightData["MNL-NRT"][date]) {
+              flightData["MNL-NRT"][date].forEach((flight) => {
                 nrtInboundFlights.push({
                   val: timeToMinutes(flight.departure_time),
                   label: `${flight.flight_number} | ${flight.departure_time}-${flight.arrival_time}`,
-                  days: [idx === 0 ? '24' : '25']
+                  days: [idx === 0 ? "24" : "25"],
                 });
               });
             }
@@ -391,7 +391,7 @@
       function initializeUI() {
         populateOutboundFlights();
         detectAndSetLanguage();
-        setReturnDate("25");
+        setReturnDate("24");
         document.querySelectorAll("select").forEach((el) => el.addEventListener("change", calculate));
       }
 
@@ -400,32 +400,32 @@
         const langData = multilingualData[currentLang];
 
         // TPE outbound
-        const tpeOut = document.getElementById('out_tpe');
+        const tpeOut = document.getElementById("out_tpe");
         tpeOut.innerHTML = `<option value="" disabled selected>${langData.status.select_flight}</option>`;
-        tpeOutboundFlights.forEach(flight => {
-          const opt = document.createElement('option');
+        tpeOutboundFlights.forEach((flight) => {
+          const opt = document.createElement("option");
           opt.value = flight.val;
-          opt.setAttribute('data-arr', flight.val);
+          opt.setAttribute("data-arr", flight.val);
           opt.textContent = flight.label;
           tpeOut.appendChild(opt);
         });
 
         // NRT outbound
-        const nrtOut = document.getElementById('out_nrt');
+        const nrtOut = document.getElementById("out_nrt");
         nrtOut.innerHTML = `<option value="" disabled selected>${langData.status.select_flight}</option>`;
-        nrtOutboundFlights.forEach(flight => {
-          const opt = document.createElement('option');
+        nrtOutboundFlights.forEach((flight) => {
+          const opt = document.createElement("option");
           opt.value = flight.val;
-          opt.setAttribute('data-day', '-1');
+          opt.setAttribute("data-day", "-1");
           opt.textContent = flight.label;
           nrtOut.appendChild(opt);
         });
 
         // ENI outbound
-        const eniOut = document.getElementById('out_eni');
+        const eniOut = document.getElementById("out_eni");
         eniOut.innerHTML = `<option value="" disabled selected>${langData.status.select_flight}</option>`;
-        eniOutboundFlights.forEach(flight => {
-          const opt = document.createElement('option');
+        eniOutboundFlights.forEach((flight) => {
+          const opt = document.createElement("option");
           opt.value = flight.val;
           opt.textContent = flight.label;
           eniOut.appendChild(opt);
