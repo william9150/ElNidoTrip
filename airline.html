@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>愛妮島 (ENI) 團體自由行航班規劃器 V2.2</title>
+    <title>航班規劃</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
@@ -121,7 +121,7 @@
     <div class="max-w-5xl mx-auto p-4 md:p-8">
       <!-- Header -->
       <header class="text-center mb-8 mt-4">
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2" data-key="page.title">🌴 愛妮島 (ENI) 航班規劃器</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2" data-key="page.title">🌴 愛妮島 (ENI) 航班規劃</h1>
         <p class="text-slate-500" data-key="page.subtitle">2026/5/21 出發 ➜ 5/24 或 5/25 回程</p>
       </header>
 
@@ -167,7 +167,12 @@
 
           <!-- Shared AirSWIFT -->
           <div class="md:col-span-4 card bg-blue-50 p-5 rounded-xl shadow-md border border-blue-200 ring-2 ring-blue-100 relative">
-            <div class="absolute -top-3 -right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm" data-key="outbound.meeting_point">會合點</div>
+            <div
+              class="absolute -top-3 -right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm"
+              data-key="outbound.meeting_point"
+            >
+              會合點
+            </div>
             <label class="block text-sm font-bold text-blue-800 mb-2" data-key="outbound.eni_label">🇵🇭 MNL -> ENI (共同搭乘)</label>
             <select
               id="out_eni"
@@ -232,7 +237,12 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
           <!-- Shared AirSWIFT Inbound -->
           <div class="md:col-span-4 card bg-teal-50 p-5 rounded-xl shadow-md border border-teal-200 ring-2 ring-teal-100 relative">
-            <div class="absolute -top-3 -left-3 bg-teal-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm" data-key="inbound.departure_point">出發點</div>
+            <div
+              class="absolute -top-3 -left-3 bg-teal-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm"
+              data-key="inbound.departure_point"
+            >
+              出發點
+            </div>
             <label class="block text-sm font-bold text-teal-800 mb-2" data-key="inbound.eni_label">🇵🇭 ENI -> MNL (共同搭乘)</label>
             <select
               id="in_eni"
@@ -472,7 +482,7 @@
           // < 2.5h
           colorClass = "text-red-600 font-bold";
           icon = "⚡";
-          message = `${data.status.dangerous.replace('僅', timeStr).replace('のみ', timeStr)}`;
+          message = `${data.status.dangerous.replace("僅", timeStr).replace("のみ", timeStr)}`;
         } else if (gapMinutes < 240) {
           // < 4h
           colorClass = "text-orange-600 font-bold";
@@ -579,18 +589,18 @@
             brand: "2026El Nido",
             home: "ホーム",
             airline: "フライト予約",
-            title: "エルニド (ENI) フライトプランナー"
+            title: "エルニド (ENI) フライトプランナー",
           },
           page: {
             title: "🌴 エルニド (ENI) フライトプランナー",
-            subtitle: "2026/5/21 出発 ➜ 5/24 または 5/25 帰国"
+            subtitle: "2026/5/21 出発 ➜ 5/24 または 5/25 帰国",
           },
           outbound: {
             title: "往路：2026/5/21 (木曜日)",
             tpe_label: "🇹🇼 TPE 経由 MNL 到着",
             nrt_label: "🇯🇵 NRT 経由 MNL 到着",
             meeting_point: "集合地点",
-            eni_label: "🇵🇭 MNL -> ENI (共同搭乗)"
+            eni_label: "🇵🇭 MNL -> ENI (共同搭乗)",
           },
           inbound: {
             title_prefix: "ENI 出発日：",
@@ -599,13 +609,13 @@
             departure_point: "出発地点",
             eni_label: "🇵🇭 ENI -> MNL (共同搭乗)",
             tpe_label: "🇹🇼 MNL 発 TPE 行き",
-            nrt_label: "🇯🇵 MNL 発 NRT 行き"
+            nrt_label: "🇯🇵 MNL 発 NRT 行き",
           },
           dive: {
             title: "ダイバーへのお知らせ",
             desc: "このフライトをご利用の場合、推奨される最終ダイブ終了時間：",
             label_24h: "24時間前 (推奨)",
-            label_18h: "18時間前 (最低)"
+            label_18h: "18時間前 (最低)",
           },
           status: {
             impossible: "接続不可 (フライト出発済み)",
@@ -613,30 +623,30 @@
             tight: "残り (やや急ぎ)",
             overnight: "乗り継ぎ (宿泊必要)",
             perfect: "残り (完璧)",
-            select_flight: "フライトを選択..."
+            select_flight: "フライトを選択...",
           },
           recommendation: {
             title: "✨ 旅程分析と提案",
-            return_date: "帰国日：5/"
-          }
+            return_date: "帰国日：5/",
+          },
         },
         "zh-TW": {
           nav: {
             brand: "2026El Nido",
             home: "首頁",
             airline: "航班規劃",
-            title: "愛妮島 (ENI) 航班規劃器"
+            title: "愛妮島 (ENI) 航班規劃",
           },
           page: {
-            title: "🌴 愛妮島 (ENI) 航班規劃器",
-            subtitle: "2026/5/21 出發 ➜ 5/24 或 5/25 回程"
+            title: "🌴 愛妮島 (ENI) 航班規劃",
+            subtitle: "2026/5/21 出發 ➜ 5/24 或 5/25 回程",
           },
           outbound: {
             title: "去程：2026/5/21 (週四)",
             tpe_label: "🇹🇼 TPE 抵達 MNL",
             nrt_label: "🇯🇵 NRT 抵達 MNL",
             meeting_point: "會合點",
-            eni_label: "🇵🇭 MNL -> ENI (共同搭乘)"
+            eni_label: "🇵🇭 MNL -> ENI (共同搭乘)",
           },
           inbound: {
             title_prefix: "ENI 出發日期：",
@@ -645,13 +655,13 @@
             departure_point: "出發點",
             eni_label: "🇵🇭 ENI -> MNL (共同搭乘)",
             tpe_label: "🇹🇼 MNL 起飛往 TPE",
-            nrt_label: "🇯🇵 MNL 起飛往 NRT"
+            nrt_label: "🇯🇵 MNL 起飛往 NRT",
           },
           dive: {
             title: "潛水員溫馨提醒",
             desc: "搭乘此班機，建議最後一次潛水結束時間：",
             label_24h: "24小時前 (推薦)",
-            label_18h: "18小時前 (最低)"
+            label_18h: "18小時前 (最低)",
           },
           status: {
             impossible: "無法銜接 (班機已飛走)",
@@ -659,13 +669,13 @@
             tight: "剩 (稍趕)",
             overnight: "轉機 (需過夜)",
             perfect: "剩 (完美)",
-            select_flight: "選擇航班..."
+            select_flight: "選擇航班...",
           },
           recommendation: {
             title: "✨ 行程分析與建議",
-            return_date: "回程日期：5/"
-          }
-        }
+            return_date: "回程日期：5/",
+          },
+        },
       };
 
       const defaultLang = "zh-TW";
@@ -703,17 +713,17 @@
       }
 
       function saveLanguagePreference(lang) {
-        localStorage.setItem('preferred-language', lang);
+        localStorage.setItem("preferred-language", lang);
       }
 
       function loadLanguagePreference() {
-        const savedLang = localStorage.getItem('preferred-language');
+        const savedLang = localStorage.getItem("preferred-language");
         return savedLang || defaultLang;
       }
 
       function toggleMobileMenu() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
       }
 
       function detectAndSetLanguage() {
