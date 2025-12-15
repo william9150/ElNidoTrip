@@ -16,9 +16,9 @@
         <div class="p-5">
           <div class="flex justify-between items-start mb-3">
             <div>
-              <h3 class="font-bold text-lg text-slate-800">{{ restaurant.name }}</h3>
+              <h3 class="font-bold text-lg text-slate-800">{{ $t(`restaurant.items.${restaurant.id}.name`) }}</h3>
               <p class="text-xs text-slate-500 mt-1">
-                <i class="fa-solid fa-location-dot mr-1"></i>{{ restaurant.location }}
+                <i class="fa-solid fa-location-dot mr-1"></i>{{ $t(`restaurant.items.${restaurant.id}.location`) }}
               </p>
             </div>
             <span
@@ -30,7 +30,7 @@
               {{ restaurant.category }}
             </span>
           </div>
-          <p class="text-sm text-slate-600">{{ restaurant.description }}</p>
+          <p class="text-sm text-slate-600">{{ $t(`restaurant.items.${restaurant.id}.description`) }}</p>
           <a
             :href="restaurant.mapUrl"
             target="_blank"
