@@ -4,20 +4,14 @@
       <div class="flex justify-between h-16 items-center">
         <!-- Logo/Brand -->
         <div class="flex items-center">
-          <span class="text-xl md:text-2xl font-bold text-sky-600">{{ $t('nav.brand') }}</span>
+          <router-link to="/" class="text-xl md:text-2xl font-bold text-sky-600 hover:text-sky-700 transition-colors">
+            {{ $t('nav.brand') }}
+          </router-link>
         </div>
 
         <!-- Center Navigation Links - Desktop -->
         <div class="hidden md:flex items-center space-x-6">
-          <router-link
-            to="/"
-            class="font-medium border-b-2 pb-1 transition-colors"
-            :class="$route.path === '/'
-              ? 'text-slate-900 border-sky-600'
-              : 'text-slate-600 hover:text-sky-600 border-transparent hover:border-sky-300'"
-          >
-            {{ $t('nav.home') }}
-          </router-link>
+
           <router-link
             to="/itinerary"
             class="font-medium border-b-2 pb-1 transition-colors"
@@ -105,16 +99,7 @@
 
       <!-- Mobile Menu Dropdown -->
       <div v-show="mobileMenuOpen" class="md:hidden pb-4 pt-2 space-y-2">
-        <router-link
-          to="/"
-          class="block px-4 py-2 rounded-md font-medium"
-          :class="$route.path === '/'
-            ? 'text-slate-900 bg-sky-50'
-            : 'text-slate-600 hover:bg-slate-100'"
-          @click="mobileMenuOpen = false"
-        >
-          {{ $t('nav.home') }}
-        </router-link>
+
         <router-link
           to="/itinerary"
           class="block px-4 py-2 rounded-md font-medium"

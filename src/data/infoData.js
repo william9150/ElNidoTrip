@@ -39,6 +39,7 @@ export const precautionsData = [
 export const packingList = [
   { id: 'essentials' },
   { id: 'clothing' },
+  { id: 'diving' },
   { id: 'electronics' },
   { id: 'toiletries' },
 ]
