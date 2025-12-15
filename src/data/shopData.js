@@ -1,0 +1,32 @@
+export const shopRawData = {
+  elDive: {
+    name: "EL DIVE",
+    fun2: 4500,
+    fun3: 5200,
+    ow: 23500,
+    aow: 21000,
+    url: "https://www.el-dive.com/",
+    color: "rgba(14, 165, 233, 0.8)",
+    borderColor: "rgba(14, 165, 233, 1)",
+  },
+  twoHundredBar: {
+    name: "200 Bar Diving Center",
+    fun2: 4400,
+    fun3: 5200,
+    ow: 22500,
+    aow: 19500,
+    url: "https://200bardivingcenterelnido.com/",
+    color: "rgba(249, 115, 22, 0.8)",
+    borderColor: "rgba(249, 115, 22, 1)",
+  },
+  tabanka: {
+    name: "Tabanka Divers",
+    fun2: 4800,
+    fun3: 5400,
+    ow: 22900,
+    aow: 20900,
+    url: "https://www.tabanka-divers.com/",
+    color: "rgba(16, 185, 129, 0.8)",
+    borderColor: "rgba(16, 185, 129, 1)",
+  },
+}

@@ -1,2 +1,18 @@
 # Claude Code local settings
 .claude/
+
+# Vite / Node.js
+node_modules/
+dist/
+.DS_Store
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
