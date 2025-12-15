@@ -3,6 +3,11 @@ export default {
     title: "Dive shop | 2026 El Nido",
     brand: "2026 El Nido",
     home: "ホーム",
+    itinerary: "旅程表",
+    dive: "ダイビングショップ比較",
+    flight: "フライト予約",
+    restaurants: "レストラン推薦",
+    info: "情報 & 予算",
     airline: "フライト予約",
     diag: "おすすめ診断",
     price: "料金比較",
@@ -133,5 +138,180 @@ export default {
   recommendation: {
     title: "✨ 旅程分析と提案",
     return_date: "帰国日：5/",
+  },
+  // Home page translations
+  home: {
+    hero_title: "エルニドへダイビング",
+    hero_location: "Palawan, Philippines",
+    hero_dates: "2026/05/21-24",
+    intro_title: "エルニド AOW 旅行へようこそ",
+    intro_desc: "ダイビング資格取得とバカンスを組み合わせた完璧な旅。旅程計画からダイビングショップ比較、フライト手配まで、全ての情報をここで。",
+    view_more: "詳細を見る",
+    cards: {
+      itinerary: "4日間の完全な旅程をご覧ください。Plan A と Plan B の2つの選択肢で、柔軟にダイビング資格取得の旅程を計画できます。",
+      dive: "3つのダイビングセンター（EL DIVE, 200 Bar, Tabanka）を徹底比較し、あなたに最適なショップを見つけてください。",
+      flight: "台北/東京出発のフライト接続を計画し、乗り継ぎ時間とダイビング安全時間を計算します。",
+      restaurants: "エルニドの必食レストランを厳選。窯焼きピザからシーフードグリルまで、あなたの味覚を満足させます。",
+      info: "予算計画と注意事項。学生と Fun Diver の費用見積もりを含みます。"
+    }
+  },
+  // Itinerary page translations
+  itinerary: {
+    page_title: "旅程表 | 2026 El Nido",
+    header_title: "エルニド AOW 旅行",
+    header_dates: "2026/05/21-24",
+    hero_title: "エルニドへダイビング",
+    hero_location: "Palawan, Philippines",
+    plan_a: "Plan A",
+    plan_a_desc: "Day 3 ナイトダイブ",
+    plan_b: "Plan B",
+    plan_b_desc: "Day 2 ナイトダイブ",
+    day: "Day",
+    bottom_nav: {
+      schedule: "旅程",
+      info: "情報",
+      food: "グルメ",
+    },
+    day1: {
+      title: "到着日 & コース受付",
+      subtitle: "MNL ➝ ENI (T6 126)",
+      activities: {
+        arrival: {
+          title: "エルニド・リオ空港到着",
+          desc: "荷物を受け取り、予約した車両またはトライシクルで町へ移動。"
+        },
+        checkin: {
+          title: "The Apartments チェックイン",
+          desc: "荷物を預けて、Art Cafe でランチ。"
+        },
+        registration: {
+          title: "200 Bar Diving Center 受付",
+          items: [
+            "医療申告書記入",
+            "器材試着 (ウェットスーツ、フィン)",
+            "ナイトロックス理論復習 & ガス分析",
+            "ナイトダイブ用ライト レンタル確認"
+          ]
+        },
+        dinner: {
+          title: "夕食：Trattoria Altrove",
+          desc: "有名な窯焼きピザ。"
+        }
+      }
+    },
+    day2: {
+      title: "AOW コース Day 1",
+      plan_a_subtitle: "Plan A: 3本 日中ダイブ (リラックス)",
+      plan_b_subtitle: "Plan B: 3本日中 + 1本ナイト (充実)",
+      activities: {
+        depart: {
+          title: "ダイビングショップ集合出発",
+          desc: "朝食は事前に済ませてください。"
+        },
+        dive1_2: {
+          title: "ダイブ 1 & 2",
+          items: [
+            "🎯 ピーク・パフォーマンス・ボイヤンシー (PPB)",
+            "🧭 水中ナビゲーション"
+          ]
+        },
+        dive3: {
+          title: "ダイブ 3：ディープダイブ",
+          desc: "深度による圧力と色の変化を体験。"
+        },
+        rest_b: {
+          title: "短い休憩 (Plan B)",
+          desc: "夜の4本目のために体力を温存。"
+        },
+        night_dive_b: {
+          title: "ダイブ 4：ナイトダイブ (Plan B)",
+          desc: "AOW 卒業ダイブを早めに実施。"
+        },
+        dinner: {
+          title: "夕食：Big Bad Thai"
+        }
+      }
+    },
+    day3: {
+      title: "AOW Day 2",
+      plan_a_subtitle: "Plan A: 2本日中 + 1本ナイト (卒業)",
+      plan_b_subtitle: "Plan B: 2本日中 + 午後自由時間",
+      activities: {
+        dive5_6: {
+          title: "ダイブ 5 & 6 (日中)",
+          items: [
+            "⚡ ナイトロックスダイブ体験",
+            "🐠 選択項目 (魚類識別/ドリフト)"
+          ]
+        },
+        rest_a: {
+          title: "町へ戻って休憩 (Plan A)",
+          desc: "昼寝を推奨、ナイトダイブのために体力回復。"
+        },
+        night_dive_a: {
+          title: "ダイブ 6：ナイトダイブ (Plan A)",
+          desc: "夜の生物を探索、AOW 卒業ダイブ。"
+        },
+        free_time_b: {
+          title: "自由時間 & 夕日 (Plan B)",
+          desc: "午後はマッサージまたは夕日鑑賞。"
+        },
+        celebration: {
+          title: "お祝いディナー：Jarace Grill"
+        }
+      }
+    },
+    day4: {
+      title: "禁飛行日 (No Fly)",
+      subtitle: "帰国準備、ダイビング禁止",
+      activities: {
+        beach: {
+          title: "Nacpan Beach でリラックス",
+          desc: "世界で最も美しいビーチの一つ。"
+        },
+        airport: {
+          title: "空港へ移動 (Lio Airport)",
+          desc: "荷物をまとめてチェックアウト。"
+        },
+        departure: {
+          title: "フライト出発",
+          desc: "ENI ➝ MNL (T6 147)"
+        }
+      }
+    }
+  },
+  restaurant: {
+    title: "レストランリスト",
+    view_map: "地図を見る",
+  },
+  budget: {
+    title: "情報 & 予算",
+    cost_title: "費用見積もり",
+    accommodation: "総宿泊費 (6名)",
+    student: "学生見積もり (一人)",
+    student_desc: "AOW+ナイトロックスコース、宿泊、食事込み",
+    fun_diver: "Fun Diver 見積もり",
+    fun_diver_desc: "6本ダイブ、宿泊、食事込み",
+  },
+  precautions: {
+    title: "受講注意事項",
+    items: {
+      elearning: {
+        title: "eLearning 予習",
+        desc: "出発前に必ずオンライン学科を完了してください。現地では復習のみで、貴重な休暇時間を節約します。",
+      },
+      photo: {
+        title: "写真準備",
+        desc: "PADI証明書申請用のデジタル証明写真をスマートフォンに準備してください。",
+      },
+      nitrox: {
+        title: "ナイトロックスチェック",
+        desc: "毎回のダイビング前に、必ず自分でタンクの酸素濃度を分析し署名してください。",
+      },
+      seasickness: {
+        title: "船酔い薬",
+        desc: "エルニドのバンカ船は揺れやすいです。船酔いしやすい方は朝食後に服用をお勧めします。",
+      },
+    },
   },
 }

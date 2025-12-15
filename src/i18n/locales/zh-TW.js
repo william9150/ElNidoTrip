@@ -3,6 +3,11 @@ export default {
     title: "Dive shop | 2026 El Nido",
     brand: "2026 El Nido",
     home: "首頁",
+    itinerary: "行程表",
+    dive: "潛店比較",
+    flight: "航班規劃",
+    restaurants: "餐廳推薦",
+    info: "資訊 & 預算",
     airline: "航班規劃",
     diag: "推薦診斷",
     price: "價格比較",
@@ -133,5 +138,180 @@ export default {
   recommendation: {
     title: "✨ 行程分析與建議",
     return_date: "回程日期：5/",
+  },
+  // Home page translations
+  home: {
+    hero_title: "潛進愛妮島",
+    hero_location: "Palawan, Philippines",
+    hero_dates: "2026/05/21-24",
+    intro_title: "歡迎來到愛妮島 AOW 之旅",
+    intro_desc: "這是一趟結合潛水考照與度假的完美旅程。從行程規劃、潛店比較到航班安排，所有資訊都在這裡。",
+    view_more: "查看詳情",
+    cards: {
+      itinerary: "查看完整四天行程安排，包含 Plan A 和 Plan B 兩種選擇，讓您彈性規劃潛水考照行程。",
+      dive: "深度比較三家潛水中心（EL DIVE, 200 Bar, Tabanka），找到最適合您的潛店。",
+      flight: "規劃從台北/東京出發的航班銜接，計算轉機時間與潛水安全時間。",
+      restaurants: "精選愛妮島必吃餐廳，從窯烤披薩到海鮮燒烤，滿足您的味蕾。",
+      info: "預算規劃與注意事項，包含學員與 Fun Diver 的費用估算。"
+    }
+  },
+  // Itinerary page translations
+  itinerary: {
+    page_title: "行程表 | 2026 El Nido",
+    header_title: "愛妮島 AOW 之旅",
+    header_dates: "2026/05/21-24",
+    hero_title: "潛進愛妮島",
+    hero_location: "Palawan, Philippines",
+    plan_a: "Plan A",
+    plan_a_desc: "Day 3 夜潛",
+    plan_b: "Plan B",
+    plan_b_desc: "Day 2 夜潛",
+    day: "Day",
+    bottom_nav: {
+      schedule: "行程",
+      info: "資訊",
+      food: "美食",
+    },
+    day1: {
+      title: "抵達日 & 課程報到",
+      subtitle: "MNL ➝ ENI (T6 126)",
+      activities: {
+        arrival: {
+          title: "抵達愛妮島里奧機場",
+          desc: "領取行李，搭乘預約車輛或三輪車前往鎮上。"
+        },
+        checkin: {
+          title: "入住 The Apartments",
+          desc: "寄放行李，前往 Art Cafe 享用午餐。"
+        },
+        registration: {
+          title: "200 Bar Diving Center 報到",
+          items: [
+            "填寫醫療聲明書",
+            "試穿裝備 (防寒衣、蛙鞋)",
+            "高氧理論複習 & 氣體分析",
+            "確認夜潛手電筒租借"
+          ]
+        },
+        dinner: {
+          title: "晚餐：Trattoria Altrove",
+          desc: "知名的窯烤披薩。"
+        }
+      }
+    },
+    day2: {
+      title: "AOW 課程 Day 1",
+      plan_a_subtitle: "Plan A: 3 支日潛 (輕鬆)",
+      plan_b_subtitle: "Plan B: 3 日潛 + 1 夜潛 (精實)",
+      activities: {
+        depart: {
+          title: "潛店集合出發",
+          desc: "早餐請提前吃完。"
+        },
+        dive1_2: {
+          title: "潛水 1 & 2",
+          items: [
+            "🎯 頂尖中性浮力 (PPB)",
+            "🧭 水底導航"
+          ]
+        },
+        dive3: {
+          title: "潛水 3：深潛 (Deep Dive)",
+          desc: "體驗深度壓力與色彩變化。"
+        },
+        rest_b: {
+          title: "短暫休息 (Plan B)",
+          desc: "為了晚上的第 4 支氣瓶儲備體力。"
+        },
+        night_dive_b: {
+          title: "潛水 4：夜潛 (Plan B)",
+          desc: "AOW 畢業項目提早進行。"
+        },
+        dinner: {
+          title: "晚餐：Big Bad Thai"
+        }
+      }
+    },
+    day3: {
+      title: "AOW Day 2",
+      plan_a_subtitle: "Plan A: 2 日潛 + 1 夜潛 (畢業)",
+      plan_b_subtitle: "Plan B: 2 日潛 + 下午自由活動",
+      activities: {
+        dive5_6: {
+          title: "潛水 5 & 6 (日潛)",
+          items: [
+            "⚡ 高氧潛水體驗",
+            "🐠 選修項目 (魚類辨識/放流)"
+          ]
+        },
+        rest_a: {
+          title: "回鎮上休息 (Plan A)",
+          desc: "建議睡午覺，為夜潛儲備體力。"
+        },
+        night_dive_a: {
+          title: "潛水 6：夜潛 (Plan A)",
+          desc: "探索夜間生物，AOW 畢業潛。"
+        },
+        free_time_b: {
+          title: "自由活動 & 夕陽 (Plan B)",
+          desc: "下午按摩或看夕陽。"
+        },
+        celebration: {
+          title: "慶功宴：Jarace Grill"
+        }
+      }
+    },
+    day4: {
+      title: "禁飛日 (No Fly)",
+      subtitle: "準備返程，禁止潛水",
+      activities: {
+        beach: {
+          title: "Nacpan Beach 放鬆",
+          desc: "世界最美沙灘之一。"
+        },
+        airport: {
+          title: "前往機場 (Lio Airport)",
+          desc: "整理行李退房。"
+        },
+        departure: {
+          title: "班機起飛",
+          desc: "ENI ➝ MNL (T6 147)"
+        }
+      }
+    }
+  },
+  restaurant: {
+    title: "餐廳口袋名單",
+    view_map: "查看地圖",
+  },
+  budget: {
+    title: "資訊 & 預算",
+    cost_title: "費用預估",
+    accommodation: "總住宿費 (6人)",
+    student: "學員預估 (每人)",
+    student_desc: "含 AOW+高氧課程、住宿、餐食",
+    fun_diver: "Fun Diver 預估",
+    fun_diver_desc: "含 6 潛、住宿、餐食",
+  },
+  precautions: {
+    title: "上課注意事項",
+    items: {
+      elearning: {
+        title: "eLearning 預習",
+        desc: "出發前務必完成線上學科，現場僅做複習，節省寶貴度假時間。",
+      },
+      photo: {
+        title: "照片準備",
+        desc: "手機裡準備好電子證件照，申請 PADI 證照用。",
+      },
+      nitrox: {
+        title: "高氧檢查",
+        desc: "每次潛水前，務必親自分析氣瓶氧氣濃度並簽名。",
+      },
+      seasickness: {
+        title: "暈船藥",
+        desc: "愛妮島螃蟹船較晃，易暈者建議早餐後服用。",
+      },
+    },
   },
 }

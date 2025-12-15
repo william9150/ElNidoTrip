@@ -19,13 +19,49 @@
             {{ $t('nav.home') }}
           </router-link>
           <router-link
-            to="/airline"
+            to="/itinerary"
             class="font-medium border-b-2 pb-1 transition-colors"
-            :class="$route.path === '/airline'
+            :class="$route.path === '/itinerary'
               ? 'text-slate-900 border-sky-600'
               : 'text-slate-600 hover:text-sky-600 border-transparent hover:border-sky-300'"
           >
-            {{ $t('nav.airline') }}
+            {{ $t('nav.itinerary') }}
+          </router-link>
+          <router-link
+            to="/dive"
+            class="font-medium border-b-2 pb-1 transition-colors"
+            :class="$route.path === '/dive'
+              ? 'text-slate-900 border-sky-600'
+              : 'text-slate-600 hover:text-sky-600 border-transparent hover:border-sky-300'"
+          >
+            {{ $t('nav.dive') }}
+          </router-link>
+          <router-link
+            to="/flight"
+            class="font-medium border-b-2 pb-1 transition-colors"
+            :class="$route.path === '/flight'
+              ? 'text-slate-900 border-sky-600'
+              : 'text-slate-600 hover:text-sky-600 border-transparent hover:border-sky-300'"
+          >
+            {{ $t('nav.flight') }}
+          </router-link>
+          <router-link
+            to="/restaurants"
+            class="font-medium border-b-2 pb-1 transition-colors"
+            :class="$route.path === '/restaurants'
+              ? 'text-slate-900 border-sky-600'
+              : 'text-slate-600 hover:text-sky-600 border-transparent hover:border-sky-300'"
+          >
+            {{ $t('nav.restaurants') }}
+          </router-link>
+          <router-link
+            to="/info"
+            class="font-medium border-b-2 pb-1 transition-colors"
+            :class="$route.path === '/info'
+              ? 'text-slate-900 border-sky-600'
+              : 'text-slate-600 hover:text-sky-600 border-transparent hover:border-sky-300'"
+          >
+            {{ $t('nav.info') }}
           </router-link>
         </div>
 
@@ -71,14 +107,54 @@
           {{ $t('nav.home') }}
         </router-link>
         <router-link
-          to="/airline"
+          to="/itinerary"
           class="block px-4 py-2 rounded-md font-medium"
-          :class="$route.path === '/airline'
+          :class="$route.path === '/itinerary'
             ? 'text-slate-900 bg-sky-50'
             : 'text-slate-600 hover:bg-slate-100'"
           @click="mobileMenuOpen = false"
         >
-          {{ $t('nav.airline') }}
+          {{ $t('nav.itinerary') }}
+        </router-link>
+        <router-link
+          to="/dive"
+          class="block px-4 py-2 rounded-md font-medium"
+          :class="$route.path === '/dive'
+            ? 'text-slate-900 bg-sky-50'
+            : 'text-slate-600 hover:bg-slate-100'"
+          @click="mobileMenuOpen = false"
+        >
+          {{ $t('nav.dive') }}
+        </router-link>
+        <router-link
+          to="/flight"
+          class="block px-4 py-2 rounded-md font-medium"
+          :class="$route.path === '/flight'
+            ? 'text-slate-900 bg-sky-50'
+            : 'text-slate-600 hover:bg-slate-100'"
+          @click="mobileMenuOpen = false"
+        >
+          {{ $t('nav.flight') }}
+        </router-link>
+        <router-link
+          to="/restaurants"
+          class="block px-4 py-2 rounded-md font-medium"
+          :class="$route.path === '/restaurants'
+            ? 'text-slate-900 bg-sky-50'
+            : 'text-slate-600 hover:bg-slate-100'"
+          @click="mobileMenuOpen = false"
+        >
+          {{ $t('nav.restaurants') }}
+        </router-link>
+        <router-link
+          to="/info"
+          class="block px-4 py-2 rounded-md font-medium"
+          :class="$route.path === '/info'
+            ? 'text-slate-900 bg-sky-50'
+            : 'text-slate-600 hover:bg-slate-100'"
+          @click="mobileMenuOpen = false"
+        >
+          {{ $t('nav.info') }}
         </router-link>
       </div>
     </div>

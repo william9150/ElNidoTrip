@@ -1,0 +1,215 @@
+// Itinerary data structure - text content is in i18n files
+export const itineraryData = {
+  day1: {
+    date: '05/21',
+    color: 'blue',
+    activities: [
+      {
+        time: '11:30',
+        timeMarker: '11',
+        markerColor: 'slate',
+        key: 'arrival',
+      },
+      {
+        time: '12:30 - 14:00',
+        timeMarker: '12',
+        markerColor: 'amber',
+        key: 'checkin',
+      },
+      {
+        time: '14:00 - 16:30',
+        timeMarker: null,
+        markerColor: 'blue',
+        icon: 'file-signature',
+        highlight: true,
+        key: 'registration',
+        hasItems: true,
+        itemHighlight: 2, // Index of item to highlight (0-based)
+      },
+      {
+        time: '17:30',
+        timeMarker: null,
+        markerColor: 'orange',
+        icon: 'utensils',
+        key: 'dinner',
+      },
+    ],
+  },
+  day2: {
+    date: '05/22',
+    color: 'indigo',
+    planA: {
+      activities: [
+        {
+          time: '08:00',
+          timeMarker: '08',
+          markerColor: 'slate',
+          key: 'depart',
+        },
+        {
+          time: '09:00 - 12:00',
+          timeMarker: '1',
+          markerColor: 'indigo',
+          markerTextColor: 'white',
+          key: 'dive1_2',
+          hasItems: true,
+        },
+        {
+          time: '13:30 - 15:00',
+          timeMarker: '3',
+          markerColor: 'indigo',
+          markerTextColor: 'white',
+          key: 'dive3',
+        },
+        {
+          time: '18:30',
+          timeMarker: null,
+          markerColor: 'orange',
+          icon: 'utensils',
+          key: 'dinner',
+        },
+      ],
+    },
+    planB: {
+      activities: [
+        {
+          time: '08:00',
+          timeMarker: '08',
+          markerColor: 'slate',
+          key: 'depart',
+        },
+        {
+          time: '09:00 - 12:00',
+          timeMarker: '1',
+          markerColor: 'indigo',
+          markerTextColor: 'white',
+          key: 'dive1_2',
+          hasItems: true,
+        },
+        {
+          time: '13:30 - 15:00',
+          timeMarker: '3',
+          markerColor: 'indigo',
+          markerTextColor: 'white',
+          key: 'dive3',
+        },
+        {
+          time: '15:30 - 17:30',
+          timeMarker: null,
+          markerColor: 'slate',
+          icon: 'bed',
+          key: 'rest_b',
+        },
+        {
+          time: '18:00 - 19:30',
+          timeMarker: null,
+          markerColor: 'purple',
+          markerTextColor: 'white',
+          icon: 'moon',
+          nightDive: true,
+          key: 'night_dive_b',
+        },
+        {
+          time: '20:30',
+          timeMarker: null,
+          markerColor: 'orange',
+          icon: 'utensils',
+          key: 'dinner',
+        },
+      ],
+    },
+  },
+  day3: {
+    date: '05/23',
+    color: 'purple',
+    planA: {
+      activities: [
+        {
+          time: '09:00 - 13:00',
+          timeMarker: 'Day',
+          markerColor: 'indigo',
+          markerTextColor: 'white',
+          key: 'dive5_6',
+          hasItems: true,
+        },
+        {
+          time: '14:00 - 17:00',
+          timeMarker: null,
+          markerColor: 'slate',
+          icon: 'bed',
+          key: 'rest_a',
+        },
+        {
+          time: '18:00 - 19:30',
+          timeMarker: null,
+          markerColor: 'purple',
+          markerTextColor: 'white',
+          icon: 'moon',
+          nightDive: true,
+          key: 'night_dive_a',
+        },
+        {
+          time: '20:30',
+          timeMarker: null,
+          markerColor: 'green',
+          icon: 'champagne-glasses',
+          key: 'celebration',
+        },
+      ],
+    },
+    planB: {
+      activities: [
+        {
+          time: '09:00 - 13:00',
+          timeMarker: 'Day',
+          markerColor: 'indigo',
+          markerTextColor: 'white',
+          key: 'dive5_6',
+          hasItems: true,
+        },
+        {
+          time: '14:00 - 19:00',
+          timeMarker: null,
+          markerColor: 'teal',
+          icon: 'sun',
+          gradient: true,
+          key: 'free_time_b',
+        },
+        {
+          time: '19:00',
+          timeMarker: null,
+          markerColor: 'green',
+          icon: 'champagne-glasses',
+          key: 'celebration',
+        },
+      ],
+    },
+  },
+  day4: {
+    date: '05/24',
+    color: 'red',
+    noFly: true,
+    activities: [
+      {
+        time: '09:00 - 13:00',
+        timeMarker: null,
+        markerColor: 'teal',
+        icon: 'umbrella-beach',
+        key: 'beach',
+      },
+      {
+        time: '15:30',
+        timeMarker: '15',
+        markerColor: 'slate',
+        key: 'airport',
+      },
+      {
+        time: '18:05',
+        timeMarker: null,
+        markerColor: 'slate',
+        icon: 'plane-departure',
+        key: 'departure',
+      },
+    ],
+  },
+}

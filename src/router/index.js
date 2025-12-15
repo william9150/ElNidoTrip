@@ -1,10 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
+import ItineraryView from '@/views/ItineraryView.vue'
 import DiveShopView from '@/views/DiveShopView.vue'
 import FlightView from '@/views/FlightView.vue'
+import RestaurantView from '@/views/RestaurantView.vue'
+import InfoView from '@/views/InfoView.vue'
 
 const routes = [
   {
     path: '/',
+    name: 'home',
+    component: HomeView,
+    meta: {
+      title: '2026 El Nido',
+    },
+  },
+  {
+    path: '/itinerary',
+    name: 'itinerary',
+    component: ItineraryView,
+    meta: {
+      title: '行程表 | 2026 El Nido',
+    },
+  },
+  {
+    path: '/dive',
     name: 'dive-shop',
     component: DiveShopView,
     meta: {
@@ -12,7 +32,7 @@ const routes = [
     },
   },
   {
-    path: '/airline',
+    path: '/flight',
     name: 'flight',
     component: FlightView,
     meta: {
@@ -20,14 +40,35 @@ const routes = [
     },
   },
   {
-    // Redirect old index.html to /
-    path: '/index.html',
-    redirect: '/',
+    path: '/restaurants',
+    name: 'restaurants',
+    component: RestaurantView,
+    meta: {
+      title: '餐廳推薦 | 2026 El Nido',
+    },
   },
   {
-    // Redirect old airline.html to /airline
+    path: '/info',
+    name: 'info',
+    component: InfoView,
+    meta: {
+      title: '資訊 & 預算 | 2026 El Nido',
+    },
+  },
+  {
+    // Redirect old index.html to /dive (old dive shop page)
+    path: '/index.html',
+    redirect: '/dive',
+  },
+  {
+    // Redirect old /airline to /flight
+    path: '/airline',
+    redirect: '/flight',
+  },
+  {
+    // Redirect old airline.html to /flight
     path: '/airline.html',
-    redirect: '/airline',
+    redirect: '/flight',
   },
 ]
 
