@@ -1,15 +1,17 @@
 <template>
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
     <!-- Hero Section -->
-    <section class="relative h-96 bg-gradient-to-br from-sky-400 to-blue-600 rounded-2xl overflow-hidden shadow-xl">
-      <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">
+    <section class="relative h-96 rounded-2xl overflow-hidden shadow-xl">
+      <img src="/images/home_hero.png" alt="El Nido Landscape" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/30"></div>
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
           {{ $t('home.hero_title') }}
         </h1>
-        <p class="text-xl text-white/90 mb-2">
+        <p class="text-xl text-white/95 mb-2 drop-shadow-md">
           <i class="fa-solid fa-location-dot mr-2"></i>{{ $t('home.hero_location') }}
         </p>
-        <p class="text-lg text-white/80 font-mono">{{ $t('home.hero_dates') }}</p>
+        <p class="text-lg text-white/90 font-mono drop-shadow-md">{{ $t('home.hero_dates') }}</p>
       </div>
     </section>
 
