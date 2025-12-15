@@ -6,7 +6,7 @@
       <div class="absolute inset-0 bg-black/40"></div>
       <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-white relative z-10">
         <h1 class="text-3xl md:text-4xl font-bold mb-2 drop-shadow-lg">🍴 {{ $t('restaurant.title') }}</h1>
-        <p class="text-lg text-white/95 drop-shadow-md">精選愛妮島美食推薦</p>
+        <p class="text-lg text-white/95 drop-shadow-md">{{ $t('restaurant.subtitle') }}</p>
       </div>
     </section>
 

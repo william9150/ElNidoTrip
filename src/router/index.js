@@ -5,6 +5,7 @@ import DiveShopView from '@/views/DiveShopView.vue'
 import FlightView from '@/views/FlightView.vue'
 import RestaurantView from '@/views/RestaurantView.vue'
 import InfoView from '@/views/InfoView.vue'
+import BudgetView from '@/views/BudgetView.vue'
 
 const routes = [
   {
@@ -52,7 +53,15 @@ const routes = [
     name: 'info',
     component: InfoView,
     meta: {
-      title: '資訊 & 預算 | 2026 El Nido',
+      title: '旅遊資訊 | 2026 El Nido',
+    },
+  },
+  {
+    path: '/budget',
+    name: 'budget',
+    component: BudgetView,
+    meta: {
+      title: '預算規劃 | 2026 El Nido',
     },
   },
   {

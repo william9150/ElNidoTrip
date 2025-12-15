@@ -35,3 +35,17 @@ export const precautionsData = [
     description: '愛妮島螃蟹船較晃，易暈者建議早餐後服用。',
   },
 ]
+
+export const packingList = [
+  { id: 'essentials' },
+  { id: 'clothing' },
+  { id: 'electronics' },
+  { id: 'toiletries' },
+]
+
+export const flightPrecautionsData = [
+  { id: 'etravel' },
+  { id: 'liquids' },
+  { id: 'batteries' },
+  { id: 'checkin' },
+]

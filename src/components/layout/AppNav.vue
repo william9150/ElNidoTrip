@@ -63,6 +63,15 @@
           >
             {{ $t('nav.info') }}
           </router-link>
+          <router-link
+            to="/budget"
+            class="font-medium border-b-2 pb-1 transition-colors"
+            :class="$route.path === '/budget'
+              ? 'text-slate-900 border-sky-600'
+              : 'text-slate-600 hover:text-sky-600 border-transparent hover:border-sky-300'"
+          >
+            {{ $t('nav.budget') }}
+          </router-link>
         </div>
 
         <!-- Right Side: Language Selector + Mobile Menu -->
@@ -155,6 +164,16 @@
           @click="mobileMenuOpen = false"
         >
           {{ $t('nav.info') }}
+        </router-link>
+        <router-link
+          to="/budget"
+          class="block px-4 py-2 rounded-md font-medium"
+          :class="$route.path === '/budget'
+            ? 'text-slate-900 bg-sky-50'
+            : 'text-slate-600 hover:bg-slate-100'"
+          @click="mobileMenuOpen = false"
+        >
+          {{ $t('nav.budget') }}
         </router-link>
       </div>
     </div>
